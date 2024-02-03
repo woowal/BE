@@ -19,7 +19,8 @@ public class MemberService {
         UnivCert.certify(emailRequest.getKey(), emailRequest.getEmail(), emailRequest.getUnivName(), true);
     }
 
-    public void checkCode(CodeRequest codeRequest) throws IOException {
+    public String checkCode(CodeRequest codeRequest) throws IOException {
         UnivCert.certifyCode(codeRequest.getKey(), codeRequest.getEmail(), codeRequest.getUnivName(), codeRequest.getCode());
+        return "인증 성공";
     }
 }
