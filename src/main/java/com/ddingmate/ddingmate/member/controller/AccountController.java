@@ -1,6 +1,8 @@
 package com.ddingmate.ddingmate.member.controller;
 
+import com.ddingmate.ddingmate.member.dto.request.LoginRequest;
 import com.ddingmate.ddingmate.member.dto.request.RegisterRequest;
+import com.ddingmate.ddingmate.member.dto.response.LoginResponse;
 import com.ddingmate.ddingmate.member.service.AccountService;
 import com.ddingmate.ddingmate.util.response.ApiResponse;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +22,11 @@ public class AccountController {
     public ApiResponse<Void> register(@RequestBody RegisterRequest registerRequest) {
         accountService.register(registerRequest);
         return ApiResponse.ok();
+    }
+
+    @PostMapping("/login")
+    public ApiResponse<LoginResponse> login(@RequestBody LoginRequest loginRequest) {
+        return ApiResponse.ok(accountService.login(loginRequest));
     }
 
 

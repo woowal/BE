@@ -1,6 +1,7 @@
 package com.ddingmate.ddingmate.member.dto.request;
 
 import com.ddingmate.ddingmate.member.domain.Member;
+import com.ddingmate.ddingmate.member.state.Role;
 import lombok.Getter;
 
 import java.util.Date;
@@ -27,6 +28,7 @@ public class RegisterRequest {
                 .studentId(this.studentId)
                 .birth(this.birth)
                 .introduction(this.introduction)
+                .role(Role.USER)
                 .build();
     }
 }
