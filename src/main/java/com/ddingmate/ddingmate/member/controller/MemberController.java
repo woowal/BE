@@ -1,10 +1,12 @@
 package com.ddingmate.ddingmate.member.controller;
 
-import com.ddingmate.ddingmate.member.dto.request.CodeRequest;
-import com.ddingmate.ddingmate.member.dto.request.EmailRequest;
+import com.ddingmate.ddingmate.member.domain.Member;
+import com.ddingmate.ddingmate.member.dto.request.*;
+import com.ddingmate.ddingmate.member.dto.response.MemberResponse;
 import com.ddingmate.ddingmate.member.service.MemberService;
 import com.ddingmate.ddingmate.util.response.ApiResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
@@ -17,15 +19,29 @@ public class MemberController {
 
     private final MemberService memberService;
 
-    @PostMapping("/cerify")
-    public ApiResponse<Void> checkEmail(@RequestBody EmailRequest emailRequest) throws IOException {
-        memberService.checkEmail(emailRequest);
+    @PatchMapping
+    public ApiResponse<Void> updateMember(@RequestBody MemberUpdateRequest memberUpdateRequest) {
+        memberService.updateMember(memberUpdateRequest);
         return ApiResponse.ok();
     }
 
-    @PostMapping("/cerifycode")
-    public ApiResponse<String> checkCode(@RequestBody CodeRequest codeRequest) throws IOException {
-        return ApiResponse.ok(memberService.checkCode(codeRequest));
+    @DeleteMapping("memberId={id}")
+    public ApiResponse<Void> deleteMember(@PathVariable Long id) {
+        memberService.deleteMember(id);
+        return ApiResponse.ok();
+    }
+
+    @GetMapping("memberId={id}")
+    public ApiResponse<MemberResponse> retrieveMember(@PathVariable Long id) {
+        Member member = memberService.retrieveMember(id);
+        MemberResponse memberResponse = MemberResponse.from(member);
+        return ApiResponse.ok(memberResponse);
+    }
+
+    @PatchMapping("/password")
+    public ApiResponse<Void> updateMemberPassword(@RequestBody MemberPasswordUpdateRequest memberPasswordUpdateRequest) {
+        memberService.updateMemberPassword(memberPasswordUpdateRequest);
+        return ApiResponse.ok();
     }
 
 }
