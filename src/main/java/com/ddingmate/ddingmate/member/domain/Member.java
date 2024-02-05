@@ -1,5 +1,7 @@
 package com.ddingmate.ddingmate.member.domain;
 
+import com.ddingmate.ddingmate.member.dto.request.MemberPasswordUpdateRequest;
+import com.ddingmate.ddingmate.member.dto.request.MemberUpdateRequest;
 import com.ddingmate.ddingmate.member.state.Role;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -7,7 +9,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 @Entity
 @Getter
@@ -18,25 +20,37 @@ public class Member {
     @Column(name = "member_id")
     private Long id;
 
+    @Column(unique = true)
     private String email;
+
     private String password;
     private String name;
-    private String studentId;
-    private Date birth;
+    private String major;
+    private Long studentId;
+    private LocalDate birth;
     private String introduction;
+    private String category;
     private Role role;
 
-
     @Builder
-    public Member(String email, String password, String name, String studentId, Date birth, String introduction, Role role) {
+    public Member(String email, String password, String name, String major, Long studentId, LocalDate birth, String introduction, Role role) {
         this.email = email;
         this.password = password;
         this.name = name;
+        this.major = major;
         this.studentId = studentId;
         this.birth = birth;
         this.introduction = introduction;
         this.role = role;
     }
 
+    public void update(MemberUpdateRequest memberUpdateRequest) {
+        this.name = memberUpdateRequest.getName();
+        this.major = memberUpdateRequest.getMajor();
+    }
+
+    public void updatePassword(MemberPasswordUpdateRequest memberPasswordUpdateRequest) {
+        this.password = memberPasswordUpdateRequest.getNewPassword();
+    }
 
 }
