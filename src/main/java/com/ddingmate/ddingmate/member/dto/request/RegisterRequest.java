@@ -4,6 +4,7 @@ import com.ddingmate.ddingmate.member.domain.Member;
 import com.ddingmate.ddingmate.member.state.Role;
 import lombok.Getter;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 @Getter
@@ -14,8 +15,8 @@ public class RegisterRequest {
     private String passwordCheck;
     private String name;
 //    private Major major;
-    private String studentId;
-    private Date birth;
+    private Long studentId;
+    private LocalDate birth;
     private String introduction;
 
 
