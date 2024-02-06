@@ -6,6 +6,6 @@ import lombok.Getter;
 public class MemberUpdateRequest {
 
     private Long id;
-    private String name;
+    private String introduction;
     private String major;
 }
