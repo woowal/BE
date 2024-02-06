@@ -45,12 +45,13 @@ public class Member {
     }
 
     public void update(MemberUpdateRequest memberUpdateRequest) {
-        this.name = memberUpdateRequest.getName();
+
+        this.introduction = memberUpdateRequest.getIntroduction();
         this.major = memberUpdateRequest.getMajor();
     }
 
-    public void updatePassword(MemberPasswordUpdateRequest memberPasswordUpdateRequest) {
-        this.password = memberPasswordUpdateRequest.getNewPassword();
+    public void updatePassword(String newPassword) {
+        this.password = newPassword;
     }
 
 }
