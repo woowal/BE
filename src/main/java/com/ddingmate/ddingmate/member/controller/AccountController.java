@@ -2,13 +2,13 @@ package com.ddingmate.ddingmate.member.controller;
 
 import com.ddingmate.ddingmate.member.dto.request.LoginRequest;
 import com.ddingmate.ddingmate.member.dto.request.RegisterRequest;
+import com.ddingmate.ddingmate.member.dto.response.EmailResponse;
 import com.ddingmate.ddingmate.member.dto.response.LoginResponse;
 import com.ddingmate.ddingmate.member.service.AccountService;
 import com.ddingmate.ddingmate.member.state.Major;
 import com.ddingmate.ddingmate.util.response.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @RestController
@@ -27,6 +27,11 @@ public class AccountController {
     @PostMapping("/login")
     public ApiResponse<LoginResponse> login(@RequestBody LoginRequest loginRequest) {
         return ApiResponse.ok(accountService.login(loginRequest));
+    }
+
+    @PostMapping("/email")
+    public ApiResponse<EmailResponse> sendEmailAuth(@RequestParam("email") String email) {
+        return ApiResponse.ok(accountService.sendEmailAuth(email));
     }
 
     @GetMapping("/major")
