@@ -30,8 +30,8 @@ public class MemberService {
     }
 
     @Transactional(readOnly = true)
-    public Member retrieveMember(Long id) {
-        return memberRepository.findById(id).get();
+    public MemberResponse retrieveMember(Long id) {
+        return MemberResponse.from(memberRepository.findById(id).get());
     }
 
     @Transactional

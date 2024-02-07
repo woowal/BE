@@ -4,12 +4,12 @@ import com.ddingmate.ddingmate.member.dto.request.LoginRequest;
 import com.ddingmate.ddingmate.member.dto.request.RegisterRequest;
 import com.ddingmate.ddingmate.member.dto.response.LoginResponse;
 import com.ddingmate.ddingmate.member.service.AccountService;
+import com.ddingmate.ddingmate.member.state.Major;
 import com.ddingmate.ddingmate.util.response.ApiResponse;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/account")
@@ -27,6 +27,11 @@ public class AccountController {
     @PostMapping("/login")
     public ApiResponse<LoginResponse> login(@RequestBody LoginRequest loginRequest) {
         return ApiResponse.ok(accountService.login(loginRequest));
+    }
+
+    @GetMapping("/major")
+    public ApiResponse<List<Major>> retrieveMajor() {
+        return ApiResponse.ok(accountService.retrieveMajor());
     }
 
 

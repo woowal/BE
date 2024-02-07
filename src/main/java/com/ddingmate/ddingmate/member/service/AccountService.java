@@ -5,6 +5,7 @@ import com.ddingmate.ddingmate.member.dto.request.LoginRequest;
 import com.ddingmate.ddingmate.member.dto.request.RegisterRequest;
 import com.ddingmate.ddingmate.member.dto.response.LoginResponse;
 import com.ddingmate.ddingmate.member.repository.MemberRepository;
+import com.ddingmate.ddingmate.member.state.Major;
 import com.ddingmate.ddingmate.util.security.jwt.TokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -12,7 +13,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -43,4 +48,9 @@ public class AccountService {
 
     }
 
+    public List<Major> retrieveMajor() {
+
+        return Arrays.stream(Major.values())
+                .collect(Collectors.toList());
+    }
 }

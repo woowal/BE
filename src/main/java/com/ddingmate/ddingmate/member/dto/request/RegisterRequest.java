@@ -1,7 +1,10 @@
 package com.ddingmate.ddingmate.member.dto.request;
 
 import com.ddingmate.ddingmate.member.domain.Member;
+import com.ddingmate.ddingmate.member.state.Major;
 import com.ddingmate.ddingmate.member.state.Role;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import lombok.Getter;
 
 import java.time.LocalDate;
@@ -14,7 +17,8 @@ public class RegisterRequest {
     private String password;
     private String passwordCheck;
     private String name;
-//    private Major major;
+    @Enumerated(value = EnumType.STRING)
+    private Major major;
     private Long studentId;
     private LocalDate birth;
     private String introduction;
@@ -25,7 +29,7 @@ public class RegisterRequest {
                 .email(this.email)
                 .password(encodePassword)
                 .name(this.name)
-//                .major(this.major)
+                .major(this.major)
                 .studentId(this.studentId)
                 .birth(this.birth)
                 .introduction(this.introduction)

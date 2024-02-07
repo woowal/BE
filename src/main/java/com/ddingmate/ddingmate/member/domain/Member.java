@@ -2,7 +2,9 @@ package com.ddingmate.ddingmate.member.domain;
 
 import com.ddingmate.ddingmate.member.dto.request.MemberPasswordUpdateRequest;
 import com.ddingmate.ddingmate.member.dto.request.MemberUpdateRequest;
+import com.ddingmate.ddingmate.member.state.Major;
 import com.ddingmate.ddingmate.member.state.Role;
+import com.ddingmate.ddingmate.member.util.MajorConverter;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -25,7 +27,8 @@ public class Member {
 
     private String password;
     private String name;
-    private String major;
+    @Convert(converter = MajorConverter.class)
+    private Major major;
     private Long studentId;
     private LocalDate birth;
     private String introduction;
@@ -33,7 +36,8 @@ public class Member {
     private Role role;
 
     @Builder
-    public Member(String email, String password, String name, String major, Long studentId, LocalDate birth, String introduction, Role role) {
+    public Member(String email, String password, String name, Major major, Long studentId,
+                  LocalDate birth, String introduction, Role role) {
         this.email = email;
         this.password = password;
         this.name = name;

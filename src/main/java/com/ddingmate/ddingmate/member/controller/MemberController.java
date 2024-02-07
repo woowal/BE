@@ -33,9 +33,9 @@ public class MemberController {
 
     @GetMapping("memberId={id}")
     public ApiResponse<MemberResponse> retrieveMember(@PathVariable Long id) {
-        Member member = memberService.retrieveMember(id);
-        MemberResponse memberResponse = MemberResponse.from(member);
-        return ApiResponse.ok(memberResponse);
+//        Member member = memberService.retrieveMember(id);
+//        MemberResponse memberResponse = MemberResponse.from(member);
+        return ApiResponse.ok(memberService.retrieveMember(id));
     }
 
     @PatchMapping("/password")
