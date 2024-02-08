@@ -8,12 +8,14 @@ import lombok.Getter;
 public class EmailResponse {
 
     private String to;
-    private String message;
+    private String authKey;
+    private boolean enable;
 
-    public static EmailResponse of(String to, String message) {
+    public static EmailResponse of(String to, String authKey, boolean enable) {
         return EmailResponse.builder()
                 .to(to)
-                .message(message)
+                .authKey(authKey)
+                .enable(enable)
                 .build();
     }
 

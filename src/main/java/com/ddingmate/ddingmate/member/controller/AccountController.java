@@ -34,6 +34,11 @@ public class AccountController {
         return ApiResponse.ok(accountService.sendEmailAuth(email));
     }
 
+    @PostMapping("/email/auth")
+    public ApiResponse<EmailResponse> checkAuth(@RequestParam("code") String code) {
+        return ApiResponse.ok(accountService.checkAuth(code));
+    }
+
     @GetMapping("/major")
     public ApiResponse<List<Major>> retrieveMajor() {
         return ApiResponse.ok(accountService.retrieveMajor());
