@@ -32,8 +32,8 @@ public class CommentController {
         return ApiResponse.ok(commentService.retrieveCommentByMember(id));
     }
 
-    @DeleteMapping("/{commentId}")
-    public ApiResponse<Void> deleteCommentById(@PathVariable(name = "commentId") Long id) {
+    @DeleteMapping()
+    public ApiResponse<Void> deleteCommentById(@RequestParam(name = "commentId") Long id) {
         commentService.deleteCommentById(id);
         return ApiResponse.ok();
     }
