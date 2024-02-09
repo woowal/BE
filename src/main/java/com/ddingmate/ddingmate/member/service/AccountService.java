@@ -33,6 +33,7 @@ public class AccountService {
 
     @Transactional
     public void register(MemberCreateRequest memberCreateRequest) {
+        checkPassword(memberCreateRequest.getPassword(), memberCreateRequest.getPasswordCheck());
         String encodePassword = encoder.encode(memberCreateRequest.getPassword());
         Member newMember = memberCreateRequest.toEntity(encodePassword);
         memberRepository.save(newMember);
@@ -86,6 +87,12 @@ public class AccountService {
             }
         }
         return key.toString();
+    }
+
+    private void checkPassword(String password, String passwordCheck) {
+        if(!(password.equals(passwordCheck))) {
+            throw new RuntimeException("비밀번호가 일치하지 않습니다.");
+        }
     }
 
 }
