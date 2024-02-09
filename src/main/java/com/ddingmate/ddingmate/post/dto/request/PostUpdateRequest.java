@@ -8,7 +8,6 @@ import java.time.LocalDate;
 
 @Getter
 public class PostUpdateRequest {
-    Long postId;
     String title;
     String content;
     Category category;

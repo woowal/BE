@@ -1,4 +1,4 @@
-package com.ddingmate.ddingmate.like.domain;
+package com.ddingmate.ddingmate.mark.domain;
 
 import com.ddingmate.ddingmate.member.domain.Member;
 import com.ddingmate.ddingmate.post.domain.Post;
@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Like {
+public class Mark {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,7 +26,7 @@ public class Like {
     private Post post;
 
     @Builder
-    public Like(Member member, Post post) {
+    public Mark(Member member, Post post) {
         this.member = member;
         this.post = post;
     }

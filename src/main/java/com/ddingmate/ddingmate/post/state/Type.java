@@ -4,7 +4,7 @@ import lombok.Getter;
 
 @Getter
 public enum Type {
-    STUDY("스터디"), TEAMPLAY("팀플");
+    study("스터디"), teamplay("팀플");
 
     private final String value;
 

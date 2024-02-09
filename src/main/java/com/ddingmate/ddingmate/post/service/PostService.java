@@ -1,7 +1,7 @@
 package com.ddingmate.ddingmate.post.service;
 
-import com.ddingmate.ddingmate.like.domain.Like;
-import com.ddingmate.ddingmate.like.repository.LikeRepository;
+import com.ddingmate.ddingmate.mark.domain.Mark;
+import com.ddingmate.ddingmate.mark.repository.MarkRepository;
 import com.ddingmate.ddingmate.member.domain.Member;
 import com.ddingmate.ddingmate.member.service.MemberService;
 import com.ddingmate.ddingmate.post.domain.Post;
@@ -24,11 +24,12 @@ public class PostService {
 
     private final PostRepository postRepository;
     private final MemberService memberService;
-    private final LikeRepository likeRepository;
+    private final MarkRepository markRepository;
 
     @Transactional
     public void createPost(PostCreateRequest postCreateRequest) {
-        Post post = postCreateRequest.toEntity();
+        Member member = memberService.findMemberById(postCreateRequest.getMemberId());
+        Post post = postCreateRequest.toEntity(member);
         postRepository.save(post);
     }
 
@@ -38,8 +39,8 @@ public class PostService {
     }
 
     @Transactional
-    public void updatePost(PostUpdateRequest postUpdateRequest) {
-        Post post = findPostById(postUpdateRequest.getPostId());
+    public void updatePost(Long postId, PostUpdateRequest postUpdateRequest) {
+        Post post = findPostById(postId);
         post.update(postUpdateRequest);
     }
 
@@ -59,19 +60,19 @@ public class PostService {
     @Transactional(readOnly = true)
     public List<PostResponse> retrievePostsByCategory(String categoryValue) {
         Category category = Category.valueOf(categoryValue);
-        return postRepository.findAllByCategoryContains(category)
+        return postRepository.findAllByCategory(category)
                 .stream()
                 .map((post) -> PostResponse.from(post))
                 .collect(Collectors.toList());
     }
 
     @Transactional(readOnly = true)
-    public List<PostResponse> retrievePostsByLike(Long memberId) {
+    public List<PostResponse> retrievePostsByMark(Long memberId) {
         Member member = memberService.findMemberById(memberId);
-        List<Like> likes = likeRepository.findAllByMember(member);
+        List<Mark> marks = markRepository.findAllByMember(member);
 
-        return likes.stream()
-                .map(Like::getPost)
+        return marks.stream()
+                .map(Mark::getPost)
                 .map((post) -> PostResponse.from(post))
                 .collect(Collectors.toList());
     }

@@ -1,14 +1,18 @@
 package com.ddingmate.ddingmate.post.dto.request;
 
+import com.ddingmate.ddingmate.member.domain.Member;
 import com.ddingmate.ddingmate.post.domain.Post;
 import com.ddingmate.ddingmate.post.state.Category;
 import com.ddingmate.ddingmate.post.state.Type;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import lombok.Getter;
 
 import java.time.LocalDate;
 
+@Getter
 public class PostCreateRequest {
+    private Long memberId;
     private String title;
     private String content;
     @Enumerated(value = EnumType.STRING)
@@ -19,8 +23,9 @@ public class PostCreateRequest {
     private int number;
     private String link;
 
-    public Post toEntity() {
+    public Post toEntity(Member member) {
         return Post.builder()
+                .member(member)
                 .title(this.title)
                 .content(this.content)
                 .category(this.category)

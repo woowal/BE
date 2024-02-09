@@ -17,28 +17,28 @@ public class PostController {
 
     private final PostService postService;
 
-    @PostMapping
+    @PostMapping()
     public ApiResponse<Void> createPost(@RequestBody PostCreateRequest postCreateRequest) {
         postService.createPost(postCreateRequest);
 
         return ApiResponse.ok();
     }
 
-    @DeleteMapping("/postId={postId}")
+    @DeleteMapping("/{postId}")
     public ApiResponse<Void> deletePost(@PathVariable Long postId) {
         postService.deletePost(postId);
 
         return ApiResponse.ok();
     }
 
-    @PatchMapping
-    public ApiResponse<Void> updatePost(@RequestBody PostUpdateRequest postUpdateRequest) {
-        postService.updatePost(postUpdateRequest);
+    @PatchMapping("/{postId}")
+    public ApiResponse<Void> updatePost(@PathVariable Long postId, @RequestBody PostUpdateRequest postUpdateRequest) {
+        postService.updatePost(postId, postUpdateRequest);
 
         return ApiResponse.ok();
     }
 
-    @GetMapping()
+    @GetMapping("/all")
     public ApiResponse<List> retrieveAll() {
         return ApiResponse.ok(postService.retrieveAll());
     }
@@ -53,9 +53,9 @@ public class PostController {
         return ApiResponse.ok(postService.retrievePostsByCategory(category));
     }
 
-    @GetMapping("/like/{memberId}")
-    public ApiResponse<List> retrievePostsByLike(@PathVariable Long memberId) {
-        return ApiResponse.ok(postService.retrievePostsByLike(memberId));
+    @GetMapping("/mark/{memberId}")
+    public ApiResponse<List> retrievePostsByMark(@PathVariable Long memberId) {
+        return ApiResponse.ok(postService.retrievePostsByMark(memberId));
     }
 
     @GetMapping("/type={type}")

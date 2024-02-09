@@ -5,5 +5,5 @@ import lombok.Getter;
 @Getter
 public enum Category {
 
-    CATEGORY1, CATEGORY2
+    springboot, CATEGORY2
 }
