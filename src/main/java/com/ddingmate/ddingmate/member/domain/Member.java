@@ -5,6 +5,7 @@ import com.ddingmate.ddingmate.member.dto.request.MemberUpdateRequest;
 import com.ddingmate.ddingmate.member.state.Major;
 import com.ddingmate.ddingmate.member.state.Role;
 import com.ddingmate.ddingmate.member.util.MajorConverter;
+import com.ddingmate.ddingmate.post.state.Category;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -32,7 +33,7 @@ public class Member {
     private Long studentId;
     private LocalDate birth;
     private String introduction;
-    private String category;
+    private Category category;
     private Role role;
 
     @Builder
