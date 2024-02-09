@@ -1,7 +1,7 @@
 package com.ddingmate.ddingmate.member.controller;
 
 import com.ddingmate.ddingmate.member.dto.request.LoginRequest;
-import com.ddingmate.ddingmate.member.dto.request.RegisterRequest;
+import com.ddingmate.ddingmate.member.dto.request.MemberCreateRequest;
 import com.ddingmate.ddingmate.member.dto.response.EmailResponse;
 import com.ddingmate.ddingmate.member.dto.response.LoginResponse;
 import com.ddingmate.ddingmate.member.service.AccountService;
@@ -19,8 +19,8 @@ public class AccountController {
     private final AccountService accountService;
 
     @PostMapping("/register")
-    public ApiResponse<Void> register(@RequestBody RegisterRequest registerRequest) {
-        accountService.register(registerRequest);
+    public ApiResponse<Void> register(@RequestBody MemberCreateRequest memberCreateRequest) {
+        accountService.register(memberCreateRequest);
         return ApiResponse.ok();
     }
 

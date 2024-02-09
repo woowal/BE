@@ -19,9 +19,10 @@ public class MemberController {
 
     private final MemberService memberService;
 
-    @PatchMapping
-    public ApiResponse<Void> updateMember(@RequestBody MemberUpdateRequest memberUpdateRequest) {
-        memberService.updateMember(memberUpdateRequest);
+    @PatchMapping("/{userId}")
+    public ApiResponse<Void> updateMember(@PathVariable("userId") Long id,
+                                          @RequestBody MemberUpdateRequest memberUpdateRequest) {
+        memberService.updateMember(id, memberUpdateRequest);
         return ApiResponse.ok();
     }
 
@@ -38,9 +39,10 @@ public class MemberController {
         return ApiResponse.ok(memberService.retrieveMember(id));
     }
 
-    @PatchMapping("/password")
-    public ApiResponse<Void> updateMemberPassword(@RequestBody MemberPasswordUpdateRequest memberPasswordUpdateRequest) {
-        memberService.updateMemberPassword(memberPasswordUpdateRequest);
+    @PatchMapping("/password/{userId}")
+    public ApiResponse<Void> updateMemberPassword(@PathVariable("userId") Long id,
+                                                  @RequestBody MemberPasswordUpdateRequest memberPasswordUpdateRequest) {
+        memberService.updateMemberPassword(id, memberPasswordUpdateRequest);
         return ApiResponse.ok();
     }
 

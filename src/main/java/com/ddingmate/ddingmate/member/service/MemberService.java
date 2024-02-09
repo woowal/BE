@@ -9,8 +9,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.io.IOException;
-
 @Service
 @RequiredArgsConstructor
 public class MemberService {
@@ -19,8 +17,8 @@ public class MemberService {
     private final BCryptPasswordEncoder encoder;
 
     @Transactional
-    public void updateMember(MemberUpdateRequest memberUpdateRequest) {
-        Member member = memberRepository.findById(memberUpdateRequest.getId()).get();
+    public void updateMember(Long id, MemberUpdateRequest memberUpdateRequest) {
+        Member member = memberRepository.findById(id).get();
         member.update(memberUpdateRequest);
     }
 
@@ -35,8 +33,8 @@ public class MemberService {
     }
 
     @Transactional
-    public void updateMemberPassword(MemberPasswordUpdateRequest memberPasswordUpdateRequest) {
-        Member member = memberRepository.findById(memberPasswordUpdateRequest.getId()).get();
+    public void updateMemberPassword(Long id, MemberPasswordUpdateRequest memberPasswordUpdateRequest) {
+        Member member = memberRepository.findById(id).get();
         if(!encoder.matches(memberPasswordUpdateRequest.getOldPassword(), member.getPassword())) {
             throw new IllegalArgumentException();
         }

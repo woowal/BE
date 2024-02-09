@@ -2,7 +2,7 @@ package com.ddingmate.ddingmate.member.service;
 
 import com.ddingmate.ddingmate.member.domain.Member;
 import com.ddingmate.ddingmate.member.dto.request.LoginRequest;
-import com.ddingmate.ddingmate.member.dto.request.RegisterRequest;
+import com.ddingmate.ddingmate.member.dto.request.MemberCreateRequest;
 import com.ddingmate.ddingmate.member.dto.response.EmailResponse;
 import com.ddingmate.ddingmate.member.dto.response.LoginResponse;
 import com.ddingmate.ddingmate.member.repository.MemberRepository;
@@ -32,9 +32,9 @@ public class AccountService {
     private final RedisUtil redisUtil;
 
     @Transactional
-    public void register(RegisterRequest registerRequest) {
-        String encodePassword = encoder.encode(registerRequest.getPassword());
-        Member newMember = registerRequest.toEntity(encodePassword);
+    public void register(MemberCreateRequest memberCreateRequest) {
+        String encodePassword = encoder.encode(memberCreateRequest.getPassword());
+        Member newMember = memberCreateRequest.toEntity(encodePassword);
         memberRepository.save(newMember);
     }
 
