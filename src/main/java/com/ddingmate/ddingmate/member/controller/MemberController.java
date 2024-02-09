@@ -26,13 +26,13 @@ public class MemberController {
         return ApiResponse.ok();
     }
 
-    @DeleteMapping("memberId={id}")
+    @DeleteMapping("/{id}")
     public ApiResponse<Void> deleteMember(@PathVariable Long id) {
         memberService.deleteMember(id);
         return ApiResponse.ok();
     }
 
-    @GetMapping("memberId={id}")
+    @GetMapping("{id}")
     public ApiResponse<MemberResponse> retrieveMember(@PathVariable Long id) {
 //        Member member = memberService.retrieveMember(id);
 //        MemberResponse memberResponse = MemberResponse.from(member);

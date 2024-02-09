@@ -28,7 +28,7 @@ public class MemberCreateRequest {
     private Major major;
     @NotNull
     private Long studentId;
-    @YearMonth(pattern = "yyyyMMdd")
+    @YearMonth(pattern = "yyyy-MM-dd")
     private LocalDate birth;
     private String introduction;
 
