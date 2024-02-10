@@ -19,7 +19,6 @@ public class Comment {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "comment_id")
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -31,6 +30,10 @@ public class Comment {
     private Post post;
 
     private String content;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "comment_id")
+    private Comment parent;
 
     @CreationTimestamp
     private Timestamp createTime;

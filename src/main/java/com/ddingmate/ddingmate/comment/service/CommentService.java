@@ -2,6 +2,7 @@ package com.ddingmate.ddingmate.comment.service;
 
 import com.ddingmate.ddingmate.comment.domain.Comment;
 import com.ddingmate.ddingmate.comment.dto.request.CreateCommentRequest;
+import com.ddingmate.ddingmate.comment.dto.request.CreateReplyRequest;
 import com.ddingmate.ddingmate.comment.dto.response.CommentResponse;
 import com.ddingmate.ddingmate.comment.repository.CommentRepository;
 import com.ddingmate.ddingmate.member.domain.Member;
@@ -30,6 +31,14 @@ public class CommentService {
         Member member = memberRepository.getReferenceById(createCommentRequest.getMemberId());
         Post post = postRepository.getReferenceById(createCommentRequest.getPostId());
         commentRepository.save(createCommentRequest.toEntity(member, post));
+    }
+
+    @Transactional
+    public void createReply(Long id, CreateReplyRequest createReplyRequest) {
+        Member member = memberRepository.getReferenceById(createReplyRequest.getId());
+        Comment parent = commentRepository.getReferenceById(id);
+        Comment child = createReplyRequest.toEntity(member, parent);
+        commentRepository.save(child);
     }
 
     public List<CommentResponse> retrieveCommentByPost(Long id) {
@@ -63,6 +72,7 @@ public class CommentService {
 //            targetComment.update(content);
 //        }
     }
+
     /*
     // TODO 검증의 책임과 반환의 책임을 분리하는 방법?
     private void checkCommentExist(Long id) {

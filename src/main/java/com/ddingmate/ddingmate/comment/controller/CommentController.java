@@ -1,6 +1,7 @@
 package com.ddingmate.ddingmate.comment.controller;
 
 import com.ddingmate.ddingmate.comment.dto.request.CreateCommentRequest;
+import com.ddingmate.ddingmate.comment.dto.request.CreateReplyRequest;
 import com.ddingmate.ddingmate.comment.dto.response.CommentResponse;
 import com.ddingmate.ddingmate.comment.service.CommentService;
 import com.ddingmate.ddingmate.util.response.ApiResponse;
@@ -19,6 +20,13 @@ public class CommentController {
     @PostMapping()
     public ApiResponse<Void> createComment(@RequestBody CreateCommentRequest createCommentRequest) {
         commentService.createComment(createCommentRequest);
+        return ApiResponse.ok();
+    }
+
+    @PostMapping("/reply/{commentId}")
+    public ApiResponse<Void> toComment(@PathVariable(name = "commentId") Long id,
+                                       @RequestBody CreateReplyRequest createReplyRequest) {
+        commentService.createReply(id, createReplyRequest);
         return ApiResponse.ok();
     }
 
