@@ -2,6 +2,7 @@ package com.ddingmate.ddingmate.member.dto.request;
 
 import com.ddingmate.ddingmate.member.domain.Member;
 import com.ddingmate.ddingmate.member.state.Major;
+import com.ddingmate.ddingmate.member.state.Role;
 import com.ddingmate.ddingmate.util.valid.ValidEnum;
 import com.ddingmate.ddingmate.util.valid.YearMonth;
 import jakarta.persistence.EnumType;
@@ -41,6 +42,7 @@ public class MemberCreateRequest {
                 .studentId(this.studentId)
                 .birth(this.birth)
                 .introduction(this.introduction)
+                .role(Role.USER)
                 .build();
     }
 }

@@ -32,14 +32,14 @@ public class CommentController {
         return ApiResponse.ok(commentService.retrieveCommentByMember(id));
     }
 
-    @DeleteMapping()
-    public ApiResponse<Void> deleteCommentById(@RequestParam(name = "commentId") Long id) {
+    @DeleteMapping("/{commentId}")
+    public ApiResponse<Void> deleteCommentById(@PathVariable(name = "commentId") Long id) {
         commentService.deleteCommentById(id);
         return ApiResponse.ok();
     }
 
     @PatchMapping("/{commentId}")
-    public ApiResponse<Void> updateComment(@PathVariable(name = "commentId") Long id, String content) {
+    public ApiResponse<Void> updateComment(@PathVariable(name = "commentId") Long id, @RequestParam String content) {
         commentService.updateComment(id, content);
         return ApiResponse.ok();
     }

@@ -50,7 +50,6 @@ public class Member {
     }
 
     public void update(MemberUpdateRequest memberUpdateRequest) {
-
         this.introduction = memberUpdateRequest.getIntroduction();
         this.major = memberUpdateRequest.getMajor();
     }

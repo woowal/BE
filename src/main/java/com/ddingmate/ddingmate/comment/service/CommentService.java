@@ -55,11 +55,13 @@ public class CommentService {
 
     @Transactional
     public void updateComment(Long id, String content) {
-        Optional<Comment> comment = commentRepository.findById(id);
-        if(comment.isPresent()) {
-            Comment targetComment = comment.get();
-            targetComment.update(content);
-        }
+        Comment comment = commentRepository.findById(id).get();
+        comment.update(content);
+
+//        if(comment.isPresent()) {
+//            Comment targetComment = comment.get();
+//            targetComment.update(content);
+//        }
     }
     /*
     // TODO 검증의 책임과 반환의 책임을 분리하는 방법?
