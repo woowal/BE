@@ -35,8 +35,8 @@ public class AccountController {
     }
 
     @PostMapping("/email/auth")
-    public ApiResponse<EmailResponse> checkAuth(@RequestParam("code") String code) {
-        return ApiResponse.ok(accountService.checkAuth(code));
+    public ApiResponse<Boolean> checkAuth(@RequestParam("email") String email,@RequestParam("code") String code) {
+        return ApiResponse.ok(accountService.checkAuth(email, code));
     }
 
     @GetMapping("/major")

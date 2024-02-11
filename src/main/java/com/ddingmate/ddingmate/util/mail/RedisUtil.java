@@ -22,7 +22,7 @@ public class RedisUtil {
     public void setDataExpire(String key, String value, long duration) {
         //  duration 동안 (key, value)를 저장한다.
         ValueOperations<String, String> valueOperations = redisTemplate.opsForValue();
-        Duration expireDuration = Duration.ofMillis(duration);
+        Duration expireDuration = Duration.ofSeconds(duration);
         valueOperations.set(key, value, expireDuration);
     }
 

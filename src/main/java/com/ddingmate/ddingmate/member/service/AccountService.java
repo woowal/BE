@@ -10,6 +10,8 @@ import com.ddingmate.ddingmate.member.state.Major;
 import com.ddingmate.ddingmate.util.mail.RedisUtil;
 import com.ddingmate.ddingmate.util.security.jwt.TokenProvider;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -60,17 +62,17 @@ public class AccountService {
         message.setSubject("테스트 이메일");
         message.setText("인증번호 테스트: " + authKey);
 
+        redisUtil.setDataExpire(email, authKey, 60*30L);
         mailSender.send(message);
-        redisUtil.setDataExpire(authKey, email, EXPIRE_DURATION);
         return EmailResponse.of(email, authKey, false);
     }
 
-    public EmailResponse checkAuth(String code) {
-        String email = redisUtil.getData(code);
-        if(email == null) {
-            throw new NoSuchElementException("해당 인증 번호는 유효하지 않습니다.");
+    public Boolean checkAuth(String email, String code) {
+        String key = redisUtil.getData(email);
+        if(key == null) {
+            return false;
         }
-        return EmailResponse.of(email, code, true);
+        return key.equals(code);
     }
 
     private String createCode() {
