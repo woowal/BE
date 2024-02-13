@@ -10,8 +10,6 @@ import com.ddingmate.ddingmate.member.state.Major;
 import com.ddingmate.ddingmate.util.mail.RedisUtil;
 import com.ddingmate.ddingmate.util.security.jwt.TokenProvider;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -27,6 +25,8 @@ import java.util.stream.Collectors;
 public class AccountService {
 
     private final Long EXPIRE_DURATION = 60*5L;
+    private final String SPLIT_TOKEN = "@";
+    private final String EMAIL_FORM = "mju.ac.kr";
     private final MemberRepository memberRepository;
     private final TokenProvider tokenProvider;
     private final BCryptPasswordEncoder encoder;
@@ -56,13 +56,14 @@ public class AccountService {
 
     // TODO 명지대 이메일 확인을 위한 메서드
     public EmailResponse sendEmailAuth(String email) {
+        validEmail(email);
         String authKey = createCode();
         SimpleMailMessage message = new SimpleMailMessage();
         message.setTo(email);
         message.setSubject("테스트 이메일");
         message.setText("인증번호 테스트: " + authKey);
 
-        redisUtil.setDataExpire(email, authKey, 60*30L);
+        redisUtil.setDataExpire(email, authKey, EXPIRE_DURATION);
         mailSender.send(message);
         return EmailResponse.of(email, authKey, false);
     }
@@ -94,6 +95,13 @@ public class AccountService {
     private void checkPassword(String password, String passwordCheck) {
         if(!(password.equals(passwordCheck))) {
             throw new RuntimeException("비밀번호가 일치하지 않습니다.");
+        }
+    }
+
+    private void validEmail(String email) {
+        String[] parts = email.split(SPLIT_TOKEN);
+        if(!parts[1].equals(EMAIL_FORM)) {
+            throw new RuntimeException("명지대학교 이메일 형식과 일치하지 않습니다.");
         }
     }
 

@@ -1,6 +1,5 @@
 package com.ddingmate.ddingmate.member.controller;
 
-import com.ddingmate.ddingmate.member.domain.Member;
 import com.ddingmate.ddingmate.member.dto.request.*;
 import com.ddingmate.ddingmate.member.dto.response.MemberResponse;
 import com.ddingmate.ddingmate.member.service.MemberService;
