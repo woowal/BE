@@ -2,6 +2,7 @@ package com.ddingmate.ddingmate.util.response;
 
 import lombok.Builder;
 import lombok.Getter;
+import org.springframework.http.HttpStatus;
 
 import java.time.LocalDateTime;
 
@@ -27,6 +28,10 @@ public class ApiResponse<T> {
 
     public static <T> ApiResponse<T> ok(T data) {
         return makeResponse("OK", data);
+    }
+
+    public static <T> ApiResponse<T> error(HttpStatus httpStatus, T data) {
+        return makeResponse(httpStatus.toString(), data);
     }
 
     private static <T> ApiResponse<T> makeResponse(String message, T data) {
