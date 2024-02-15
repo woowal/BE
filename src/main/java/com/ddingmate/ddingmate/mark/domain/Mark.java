@@ -7,6 +7,8 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 @Entity
 @Getter
@@ -19,10 +21,12 @@ public class Mark {
 
     @ManyToOne
     @JoinColumn(name = "member")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Member member;
 
     @ManyToOne
     @JoinColumn(name = "post")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Post post;
 
     @Builder
