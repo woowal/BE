@@ -7,7 +7,6 @@ import com.ddingmate.ddingmate.member.dto.response.EmailResponse;
 import com.ddingmate.ddingmate.member.dto.response.LoginResponse;
 import com.ddingmate.ddingmate.member.repository.MemberRepository;
 import com.ddingmate.ddingmate.member.state.Major;
-import com.ddingmate.ddingmate.util.mail.RedisUtil;
 import com.ddingmate.ddingmate.util.security.jwt.TokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.mail.SimpleMailMessage;
@@ -24,14 +23,13 @@ import java.util.stream.Collectors;
 @Transactional(readOnly = true)
 public class AccountService {
 
-    private final Long EXPIRE_DURATION = 60*5L;
     private final String SPLIT_TOKEN = "@";
     private final String EMAIL_FORM = "mju.ac.kr";
+    private HashMap<String, String> validationToken = new HashMap<>();
     private final MemberRepository memberRepository;
     private final TokenProvider tokenProvider;
     private final BCryptPasswordEncoder encoder;
     private final JavaMailSender mailSender;
-    private final RedisUtil redisUtil;
 
     @Transactional
     public void register(MemberCreateRequest memberCreateRequest) {
@@ -57,23 +55,33 @@ public class AccountService {
     // TODO 명지대 이메일 확인을 위한 메서드
     public EmailResponse sendEmailAuth(String email) {
         validEmail(email);
-        String authKey = createCode();
+        String key = createCode();
         SimpleMailMessage message = new SimpleMailMessage();
         message.setTo(email);
         message.setSubject("테스트 이메일");
-        message.setText("인증번호 테스트: " + authKey);
+        message.setText("인증번호 테스트: " + validationToken);
 
-        redisUtil.setDataExpire(email, authKey, EXPIRE_DURATION);
+        this.validationToken.put(email, key);
         mailSender.send(message);
-        return EmailResponse.of(email, authKey, false);
+        return EmailResponse.of(email, key, false);
     }
 
     public Boolean checkAuth(String email, String code) {
-        String key = redisUtil.getData(email);
-        if(key == null) {
-            return false;
+        String validateMail = findKey(code);
+        if(validateMail.equals(email)) {
+            this.validationToken.remove(validateMail, code);
+            return true;
         }
-        return key.equals(code);
+        return false;
+    }
+
+    private String findKey(String code) {
+        for (String key : this.validationToken.keySet()) {
+            if(code.equals(this.validationToken.get(key))) {
+                return key;
+            }
+        }
+        return "false";
     }
 
     private String createCode() {
