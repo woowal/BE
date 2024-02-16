@@ -8,7 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/mark")
+@RequestMapping("/api/mark")
 @RequiredArgsConstructor
 public class MarkController {
 
