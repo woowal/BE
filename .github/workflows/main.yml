@@ -30,13 +30,13 @@ jobs:
         run: ./gradlew clean build
 
       - name: Make Directory
-        run: mkdir -p deploy
+        run: mkdir cicd
 
       - name: Copy Jar
-        run: cp ./build/libs/*.jar ./main
+        run: cp ./build/libs/*.jar ./cicd
 
       - name: Make zip file
-        run: zip -r ./ddingmate.zip ./main
+        run: zip -r ./ddingmate.zip ./cicd
         shell: bash
 
       - name: Configure AWS credentials
