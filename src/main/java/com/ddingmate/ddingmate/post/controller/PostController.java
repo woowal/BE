@@ -47,7 +47,7 @@ public class PostController {
         return ApiResponse.ok(postService.retrievePost(postId));
     }
 
-    @GetMapping("/category={category}")
+    @GetMapping("/{category}")
     public ApiResponse<List> retrievePostsByCategory(@PathVariable String category) {
         return ApiResponse.ok(postService.retrievePostsByCategory(category));
     }
@@ -57,7 +57,7 @@ public class PostController {
         return ApiResponse.ok(postService.retrievePostsByMark(memberId));
     }
 
-    @GetMapping("/type={type}")
+    @GetMapping("/{type}")
     public ApiResponse<List> retrievePostsByType(@PathVariable String type) {
         return ApiResponse.ok(postService.retrievePostsByType(type));
     }

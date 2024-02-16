@@ -44,8 +44,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authorizeRequest ->
                         authorizeRequest
                                 .requestMatchers(
-                                        AntPathRequestMatcher.antMatcher("/member/**"),
-                                        AntPathRequestMatcher.antMatcher("/**")
+                                        AntPathRequestMatcher.antMatcher("/api/**")
                                 ).permitAll()
                 );
 
