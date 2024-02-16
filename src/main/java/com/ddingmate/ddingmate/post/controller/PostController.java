@@ -32,10 +32,9 @@ public class PostController {
     }
 
     @PatchMapping("/{postId}")
-    public ApiResponse<Void> updatePost(@PathVariable Long postId, @RequestBody PostUpdateRequest postUpdateRequest) {
-        postService.updatePost(postId, postUpdateRequest);
+    public ApiResponse<Boolean> updatePost(@PathVariable Long postId, @RequestBody PostUpdateRequest postUpdateRequest) {
 
-        return ApiResponse.ok();
+        return ApiResponse.ok(postService.updatePost(postId, postUpdateRequest));
     }
 
     @GetMapping("/all")

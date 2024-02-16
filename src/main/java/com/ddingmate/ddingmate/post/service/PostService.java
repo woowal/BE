@@ -39,9 +39,10 @@ public class PostService {
     }
 
     @Transactional
-    public void updatePost(Long postId, PostUpdateRequest postUpdateRequest) {
+    public Boolean updatePost(Long postId, PostUpdateRequest postUpdateRequest) {
         Post post = findPostById(postId);
         post.update(postUpdateRequest);
+        return true;
     }
 
     @Transactional(readOnly = true)
