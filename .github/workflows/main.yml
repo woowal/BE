@@ -33,17 +33,17 @@ jobs:
         run: mkdir -p deploy
 
       - name: Copy Jar
-        run: cp ./build/libs/*.jar ./cicd
+        run: cp ./build/libs/*.jar ./main
 
       - name: Make zip file
-        run: zip -r ./insta.zip ./cicd
+        run: zip -r ./ddingmate.zip ./main
         shell: bash
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_KEY }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ap-northeast-2
 
       - name: Upload to S3
