@@ -5,6 +5,7 @@ import com.ddingmate.ddingmate.member.dto.response.MemberResponse;
 import com.ddingmate.ddingmate.member.service.MemberService;
 import com.ddingmate.ddingmate.util.response.ApiResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.web.bind.annotation.*;
@@ -18,8 +19,8 @@ public class MemberController {
     private final MemberService memberService;
 
     @GetMapping("/get-current-member")
-    public Long getCurrentMember(@AuthenticationPrincipal User user) {
-        return memberService.getCurrentMember(user.getUsername());
+    public Long getCurrentMember(Authentication authentication) {
+        return memberService.getCurrentMember(authentication.getName());
     }
 
     @PatchMapping("/{userId}")
