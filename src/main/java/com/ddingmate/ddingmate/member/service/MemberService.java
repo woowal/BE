@@ -17,8 +17,8 @@ public class MemberService {
     private final BCryptPasswordEncoder encoder;
 
     @Transactional
-    public void updateMember(Long id, MemberUpdateRequest memberUpdateRequest) {
-        Member member = findMemberById(id);
+    public void updateMember(String username, MemberUpdateRequest memberUpdateRequest) {
+        Member member = findMemberByEmail(username);
         member.update(memberUpdateRequest);
     }
 
@@ -30,6 +30,10 @@ public class MemberService {
     @Transactional(readOnly = true)
     public MemberResponse retrieveMember(Long id) {
         return MemberResponse.from(findMemberById(id));
+    }
+
+    public Member findMemberByEmail(String email) {
+        return memberRepository.findByEmail(email).get();
     }
 
     public Member findMemberById(Long id) {
@@ -50,4 +54,8 @@ public class MemberService {
         member.updatePassword(newPassword);
     }
 
+    public Long getCurrentMember(String username) {
+        Member member = memberRepository.findByEmail(username).get();
+        return member.getId();
+    }
 }
