@@ -7,6 +7,7 @@ import com.ddingmate.ddingmate.member.state.Role;
 import com.ddingmate.ddingmate.member.util.MajorConverter;
 import com.ddingmate.ddingmate.member.util.RoleConverter;
 import com.ddingmate.ddingmate.post.state.Category;
+import com.ddingmate.ddingmate.post.util.CategoryConverter;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -34,13 +35,14 @@ public class Member {
     private Long studentId;
     private LocalDate birth;
     private String introduction;
+    @Convert(converter = CategoryConverter.class)
     private Category category;
     @Convert(converter = RoleConverter.class)
     private Role role;
 
     @Builder
     public Member(String email, String password, String name, Major major, Long studentId,
-                  LocalDate birth, String introduction, Role role) {
+                  LocalDate birth, String introduction, Category category, Role role) {
         this.email = email;
         this.password = password;
         this.name = name;
@@ -48,6 +50,7 @@ public class Member {
         this.studentId = studentId;
         this.birth = birth;
         this.introduction = introduction;
+        this.category = category;
         this.role = role;
     }
 

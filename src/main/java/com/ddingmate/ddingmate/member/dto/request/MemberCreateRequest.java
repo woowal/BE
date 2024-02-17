@@ -3,6 +3,7 @@ package com.ddingmate.ddingmate.member.dto.request;
 import com.ddingmate.ddingmate.member.domain.Member;
 import com.ddingmate.ddingmate.member.state.Major;
 import com.ddingmate.ddingmate.member.state.Role;
+import com.ddingmate.ddingmate.post.state.Category;
 import com.ddingmate.ddingmate.util.valid.ValidEnum;
 import com.ddingmate.ddingmate.util.valid.YearMonth;
 import jakarta.persistence.EnumType;
@@ -32,6 +33,9 @@ public class MemberCreateRequest {
     @YearMonth(pattern = "yyyy-MM-dd")
     private LocalDate birth;
     private String introduction;
+    @ValidEnum(enumClass = Category.class)
+    @Enumerated(value = EnumType.STRING)
+    private Category category;
 
     public Member toEntity(String encodePassword) {
         return Member.builder()
@@ -42,6 +46,7 @@ public class MemberCreateRequest {
                 .studentId(this.studentId)
                 .birth(this.birth)
                 .introduction(this.introduction)
+                .category(this.category)
                 .role(Role.USER)
                 .build();
     }
