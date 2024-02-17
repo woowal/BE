@@ -33,6 +33,7 @@ public class AccountService {
 
     @Transactional
     public void register(MemberCreateRequest memberCreateRequest) {
+        System.out.println("TEST_COMMIT");
         checkPassword(memberCreateRequest.getPassword(), memberCreateRequest.getPasswordCheck());
         String encodePassword = encoder.encode(memberCreateRequest.getPassword());
         Member newMember = memberCreateRequest.toEntity(encodePassword);
