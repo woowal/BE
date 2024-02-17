@@ -48,14 +48,15 @@ public class PostService {
     @Transactional(readOnly = true)
     public List<PostResponse> retrieveAll() {
         return postRepository.findAll().stream()
-                .map((post) -> PostResponse.from(post))
+                .map((post) -> PostResponse.from(post, false))
                 .collect(Collectors.toList());
     }
 
     @Transactional(readOnly = true)
-    public PostResponse retrievePost(Long postId) {
+    public PostResponse retrievePost(Long memberId, Long postId) {
         Post post = findPostById(postId);
-        return PostResponse.from(post);
+        boolean isMine = post.getMember().getId().equals(memberId);
+        return PostResponse.from(post, isMine);
     }
 
     @Transactional(readOnly = true)
@@ -63,7 +64,7 @@ public class PostService {
         Category category = Category.valueOf(categoryValue);
         return postRepository.findAllByCategory(category)
                 .stream()
-                .map((post) -> PostResponse.from(post))
+                .map((post) -> PostResponse.from(post, false))
                 .collect(Collectors.toList());
     }
 
@@ -74,7 +75,7 @@ public class PostService {
 
         return marks.stream()
                 .map(Mark::getPost)
-                .map((post) -> PostResponse.from(post))
+                .map((post) -> PostResponse.from(post, false))
                 .collect(Collectors.toList());
     }
 
@@ -83,7 +84,7 @@ public class PostService {
         Type type = Type.valueOf(typeValue);
         return postRepository.findAllByType(type)
                 .stream()
-                .map((post) -> PostResponse.from(post))
+                .map((post) -> PostResponse.from(post, false))
                 .collect(Collectors.toList());
     }
 

@@ -44,21 +44,21 @@ public class PostController {
     }
 
     @GetMapping("/{postId}")
-    public ApiResponse<PostResponse> retrievePost(@PathVariable Long postId) {
-        return ApiResponse.ok(postService.retrievePost(postId));
+    public ApiResponse<PostResponse> retrievePost(@AuthenticationPrincipal Long memberId, @PathVariable Long postId) {
+        return ApiResponse.ok(postService.retrievePost(memberId, postId));
     }
 
-    @GetMapping("/{category}")
+    @GetMapping("/catecory/{category}")
     public ApiResponse<List> retrievePostsByCategory(@PathVariable String category) {
         return ApiResponse.ok(postService.retrievePostsByCategory(category));
     }
 
-    @GetMapping("/mark  ")
+    @GetMapping("/mark")
     public ApiResponse<List> retrievePostsByMark(@AuthenticationPrincipal Long memberId) {
         return ApiResponse.ok(postService.retrievePostsByMark(memberId));
     }
 
-    @GetMapping("/{type}")
+    @GetMapping("/type/{type}")
     public ApiResponse<List> retrievePostsByType(@PathVariable String type) {
         return ApiResponse.ok(postService.retrievePostsByType(type));
     }
