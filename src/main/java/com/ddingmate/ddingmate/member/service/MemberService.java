@@ -52,6 +52,7 @@ public class MemberService {
         member.updatePassword(newPassword);
     }
 
+
     private Long convertId(String username) {
         return Long.valueOf(username);
     }
