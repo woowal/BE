@@ -10,10 +10,6 @@ import lombok.Getter;
 @Getter
 public class CreateReplyRequest {
 
-    @NotNull
-    @Column(name = "writer")
-    private Long id;
-
     @NotBlank
     private String content;
 
