@@ -33,10 +33,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String token = parseBearerToken(request);
         User user = parseUserSpecification(token);
-        AbstractAuthenticationToken authenticated = UsernamePasswordAuthenticationToken.authenticated(user, token, user.getAuthorities());
+        AbstractAuthenticationToken authenticated = UsernamePasswordAuthenticationToken.authenticated(Long.valueOf(user.getUsername()), token, user.getAuthorities());
         authenticated.setDetails(new WebAuthenticationDetails(request));
         SecurityContextHolder.getContext().setAuthentication(authenticated);
-
         filterChain.doFilter(request, response);
     }
 
