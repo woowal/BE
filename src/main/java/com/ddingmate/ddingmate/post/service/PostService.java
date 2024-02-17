@@ -27,8 +27,8 @@ public class PostService {
     private final MarkRepository markRepository;
 
     @Transactional
-    public void createPost(PostCreateRequest postCreateRequest) {
-        Member member = memberService.findMemberById(postCreateRequest.getMemberId());
+    public void createPost(Long memberId, PostCreateRequest postCreateRequest) {
+        Member member = memberService.findMemberById(memberId);
         Post post = postCreateRequest.toEntity(member);
         postRepository.save(post);
     }

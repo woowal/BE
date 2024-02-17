@@ -6,6 +6,7 @@ import com.ddingmate.ddingmate.post.dto.response.PostResponse;
 import com.ddingmate.ddingmate.post.service.PostService;
 import com.ddingmate.ddingmate.util.response.ApiResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,8 +19,8 @@ public class PostController {
     private final PostService postService;
 
     @PostMapping()
-    public ApiResponse<Void> createPost(@RequestBody PostCreateRequest postCreateRequest) {
-        postService.createPost(postCreateRequest);
+    public ApiResponse<Void> createPost(@AuthenticationPrincipal Long memberId, @RequestBody PostCreateRequest postCreateRequest) {
+        postService.createPost(memberId, postCreateRequest);
 
         return ApiResponse.ok();
     }
@@ -52,8 +53,8 @@ public class PostController {
         return ApiResponse.ok(postService.retrievePostsByCategory(category));
     }
 
-    @GetMapping("/mark/{memberId}")
-    public ApiResponse<List> retrievePostsByMark(@PathVariable Long memberId) {
+    @GetMapping("/mark  ")
+    public ApiResponse<List> retrievePostsByMark(@AuthenticationPrincipal Long memberId) {
         return ApiResponse.ok(postService.retrievePostsByMark(memberId));
     }
 
