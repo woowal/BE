@@ -1,10 +1,9 @@
 package com.ddingmate.ddingmate.mark.controller;
 
-import com.ddingmate.ddingmate.mark.dto.request.MarkCreateRequest;
-import com.ddingmate.ddingmate.mark.dto.request.MarkDeleteRequest;
 import com.ddingmate.ddingmate.mark.service.MarkService;
 import com.ddingmate.ddingmate.util.response.ApiResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -14,16 +13,16 @@ public class MarkController {
 
     private final MarkService markService;
 
-    @PostMapping
-    public ApiResponse<Void> createLike(@RequestBody MarkCreateRequest markCreateRequest) {
-        markService.createMark(markCreateRequest);
+    @PostMapping("postId")
+    public ApiResponse<Void> createLike(@AuthenticationPrincipal Long memberId, @PathVariable Long postId) {
+        markService.createMark(memberId, postId);
 
         return ApiResponse.ok();
     }
 
     @DeleteMapping
-    public ApiResponse<Void> deleteLike(@RequestBody MarkDeleteRequest markDeleteRequest) {
-        markService.deleteMark(markDeleteRequest);
+    public ApiResponse<Void> deleteLike(@AuthenticationPrincipal Long memberId, @PathVariable Long postId) {
+        markService.deleteMark(memberId, postId);
 
         return ApiResponse.ok();
     }
