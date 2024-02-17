@@ -26,15 +26,15 @@ public class CommentService {
     private final CommentRepository commentRepository;
 
     @Transactional
-    public void createComment(CreateCommentRequest createCommentRequest) {
-        Member member = memberRepository.getReferenceById(createCommentRequest.getMemberId());
+    public void createComment(Long memberId, CreateCommentRequest createCommentRequest) {
+        Member member = memberRepository.getReferenceById(memberId);
         Post post = postRepository.getReferenceById(createCommentRequest.getPostId());
         commentRepository.save(createCommentRequest.toEntity(member, post));
     }
 
     @Transactional
-    public void createReply(Long id, CreateReplyRequest createReplyRequest) {
-        Member member = memberRepository.getReferenceById(createReplyRequest.getId());
+    public void createReply(Long id, Long memberId, CreateReplyRequest createReplyRequest) {
+        Member member = memberRepository.getReferenceById(memberId);
         Comment parent = commentRepository.getReferenceById(id);
         Comment child = createReplyRequest.toEntity(member, parent);
         commentRepository.save(child);

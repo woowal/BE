@@ -12,8 +12,6 @@ public class CreateCommentRequest {
 
     @NotNull
     private Long postId;
-    @NotNull
-    private Long memberId;
     @NotEmpty
     private String content;
 

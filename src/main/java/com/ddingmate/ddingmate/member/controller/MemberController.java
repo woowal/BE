@@ -24,27 +24,27 @@ public class MemberController {
 //    }
 
     @PatchMapping()
-    public ApiResponse<Void> updateMember(@AuthenticationPrincipal User user,
+    public ApiResponse<Void> updateMember(@AuthenticationPrincipal Long memberId,
                                           @RequestBody MemberUpdateRequest memberUpdateRequest) {
-        memberService.updateMember(user.getUsername(), memberUpdateRequest);
+        memberService.updateMember(memberId, memberUpdateRequest);
         return ApiResponse.ok();
     }
 
     @DeleteMapping()
-    public ApiResponse<Void> deleteMember(@AuthenticationPrincipal User user) {
-        memberService.deleteMember(user.getUsername());
+    public ApiResponse<Void> deleteMember(@AuthenticationPrincipal Long memberId) {
+        memberService.deleteMember(memberId);
         return ApiResponse.ok();
     }
 
     @GetMapping()
-    public ApiResponse<MemberResponse> retrieveMember(@AuthenticationPrincipal User user) {
-        return ApiResponse.ok(memberService.retrieveMember(user.getUsername()));
+    public ApiResponse<MemberResponse> retrieveMember(@AuthenticationPrincipal Long memberId) {
+        return ApiResponse.ok(memberService.retrieveMember(memberId));
     }
 
     @PatchMapping("/password")
-    public ApiResponse<Void> updateMemberPassword(@AuthenticationPrincipal User user,
+    public ApiResponse<Void> updateMemberPassword(@AuthenticationPrincipal Long memberId,
                                                   @RequestBody MemberPasswordUpdateRequest memberPasswordUpdateRequest) {
-        memberService.updateMemberPassword(user.getUsername(), memberPasswordUpdateRequest);
+        memberService.updateMemberPassword(memberId, memberPasswordUpdateRequest);
         return ApiResponse.ok();
     }
 

@@ -6,6 +6,7 @@ import com.ddingmate.ddingmate.post.dto.response.PostResponse;
 import com.ddingmate.ddingmate.post.service.PostService;
 import com.ddingmate.ddingmate.util.response.ApiResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,8 +19,8 @@ public class PostController {
     private final PostService postService;
 
     @PostMapping()
-    public ApiResponse<Void> createPost(@RequestBody PostCreateRequest postCreateRequest) {
-        postService.createPost(postCreateRequest);
+    public ApiResponse<Void> createPost(@AuthenticationPrincipal Long memberId, @RequestBody PostCreateRequest postCreateRequest) {
+        postService.createPost(memberId, postCreateRequest);
 
         return ApiResponse.ok();
     }
@@ -43,21 +44,21 @@ public class PostController {
     }
 
     @GetMapping("/{postId}")
-    public ApiResponse<PostResponse> retrievePost(@PathVariable Long postId) {
-        return ApiResponse.ok(postService.retrievePost(postId));
+    public ApiResponse<PostResponse> retrievePost(@AuthenticationPrincipal Long memberId, @PathVariable Long postId) {
+        return ApiResponse.ok(postService.retrievePost(memberId, postId));
     }
 
-    @GetMapping("/{category}")
+    @GetMapping("/catecory/{category}")
     public ApiResponse<List> retrievePostsByCategory(@PathVariable String category) {
         return ApiResponse.ok(postService.retrievePostsByCategory(category));
     }
 
-    @GetMapping("/mark/{memberId}")
-    public ApiResponse<List> retrievePostsByMark(@PathVariable Long memberId) {
+    @GetMapping("/mark")
+    public ApiResponse<List> retrievePostsByMark(@AuthenticationPrincipal Long memberId) {
         return ApiResponse.ok(postService.retrievePostsByMark(memberId));
     }
 
-    @GetMapping("/{type}")
+    @GetMapping("/type/{type}")
     public ApiResponse<List> retrievePostsByType(@PathVariable String type) {
         return ApiResponse.ok(postService.retrievePostsByType(type));
     }

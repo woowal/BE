@@ -18,8 +18,9 @@ public class PostResponse {
     private LocalDate dueDate;
     private int number;
     private String link;
+    private boolean isMine;
 
-    public PostResponse(Long postId, String memberName, String title, String content, Category category, Type type, LocalDate dueDate, int number, String link) {
+    public PostResponse(Long postId, String memberName, String title, String content, Category category, Type type, LocalDate dueDate, int number, String link, boolean isMine) {
         this.postId = postId;
         this.memberName = memberName;
         this.title = title;
@@ -29,9 +30,10 @@ public class PostResponse {
         this.dueDate = dueDate;
         this.number = number;
         this.link = link;
+        this.isMine = isMine;
     }
 
-    public static PostResponse from(Post post) {
+    public static PostResponse from(Post post, boolean isMine) {
         return new PostResponse(
                 post.getId(),
                 post.getMember().getName(),
@@ -41,6 +43,7 @@ public class PostResponse {
                 post.getType(),
                 post.getDueDate(),
                 post.getNumber(),
-                post.getLink());
+                post.getLink(),
+                isMine);
     }
 }
