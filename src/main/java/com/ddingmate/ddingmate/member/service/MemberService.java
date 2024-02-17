@@ -9,6 +9,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.Console;
+
 @Service
 @RequiredArgsConstructor
 public class MemberService {
@@ -18,22 +20,18 @@ public class MemberService {
 
     @Transactional
     public void updateMember(String username, MemberUpdateRequest memberUpdateRequest) {
-        Member member = findMemberByEmail(username);
+        Member member = findMemberById(convertId(username));
         member.update(memberUpdateRequest);
     }
 
     @Transactional
-    public void deleteMember(Long id) {
-        memberRepository.deleteById(id);
+    public void deleteMember(String username) {
+        memberRepository.deleteById(convertId(username));
     }
 
     @Transactional(readOnly = true)
-    public MemberResponse retrieveMember(Long id) {
-        return MemberResponse.from(findMemberById(id));
-    }
-
-    public Member findMemberByEmail(String email) {
-        return memberRepository.findByEmail(email).get();
+    public MemberResponse retrieveMember(String username) {
+        return MemberResponse.from(findMemberById(convertId(username)));
     }
 
     public Member findMemberById(Long id) {
@@ -41,8 +39,8 @@ public class MemberService {
     }
 
     @Transactional
-    public void updateMemberPassword(Long id, MemberPasswordUpdateRequest memberPasswordUpdateRequest) {
-        Member member = findMemberById(id);
+    public void updateMemberPassword(String username, MemberPasswordUpdateRequest memberPasswordUpdateRequest) {
+        Member member = findMemberById(convertId(username));
         if(!encoder.matches(memberPasswordUpdateRequest.getOldPassword(), member.getPassword())) {
             throw new IllegalArgumentException();
         }
@@ -54,8 +52,7 @@ public class MemberService {
         member.updatePassword(newPassword);
     }
 
-    public Long getCurrentMember(String username) {
-        Member member = memberRepository.findByEmail(username).get();
-        return member.getId();
+    private Long convertId(String username) {
+        return Long.valueOf(username);
     }
 }
