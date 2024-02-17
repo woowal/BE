@@ -47,7 +47,7 @@ public class Post {
         this.dueDate = dueDate;
         this.number = number;
         this.link = link;
-        this.created = created;
+        this.created = LocalDate.now();
     }
 
     public void update(PostUpdateRequest postUpdateRequest) {
