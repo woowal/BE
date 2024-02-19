@@ -1,5 +1,6 @@
 package com.ddingmate.ddingmate.util.security.config;
 
+import com.ddingmate.ddingmate.member.state.Role;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -60,20 +61,5 @@ public class SecurityConfig {
     ForwardedHeaderFilter forwardedHeaderFilter() {
         return new ForwardedHeaderFilter();
     }
-
-//    @Bean
-//    public CorsConfigurationSource corsConfiguration() {
-//        CorsConfiguration corsConfiguration = new CorsConfiguration();
-////        corsConfiguration.addAllowedOrigin("*");
-//        corsConfiguration.addAllowedOrigin("http://localhost:3000");
-//        corsConfiguration.addAllowedHeader("*");
-//        corsConfiguration.addAllowedMethod("*");
-//        corsConfiguration.setAllowCredentials(true);
-//
-//        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-//        source.registerCorsConfiguration("/**", corsConfiguration);
-//
-//        return source;
-//    }
 
 }
