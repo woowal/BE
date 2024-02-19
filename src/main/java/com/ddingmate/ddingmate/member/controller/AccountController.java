@@ -36,6 +36,10 @@ public class AccountController {
 
     @PostMapping("/email/auth")
     public ApiResponse<Boolean> checkAuth(@RequestParam("email") String email,@RequestParam("code") String code) {
+        Boolean result = accountService.checkAuth(email, code);
+        if(result.equals(false)) {
+            throw new RuntimeException("유효하지 않은 인증코드 입니다.");
+        }
         return ApiResponse.ok(accountService.checkAuth(email, code));
     }
 
