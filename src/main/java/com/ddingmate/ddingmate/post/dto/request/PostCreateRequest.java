@@ -12,7 +12,6 @@ import java.time.LocalDate;
 
 @Getter
 public class PostCreateRequest {
-    private Long memberId;
     private String title;
     private String content;
     @Enumerated(value = EnumType.STRING)

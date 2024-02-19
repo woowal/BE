@@ -19,19 +19,19 @@ public class MemberService {
     private final BCryptPasswordEncoder encoder;
 
     @Transactional
-    public void updateMember(String username, MemberUpdateRequest memberUpdateRequest) {
-        Member member = findMemberById(convertId(username));
+    public void updateMember(Long memberId, MemberUpdateRequest memberUpdateRequest) {
+        Member member = findMemberById(memberId);
         member.update(memberUpdateRequest);
     }
 
     @Transactional
-    public void deleteMember(String username) {
-        memberRepository.deleteById(convertId(username));
+    public void deleteMember(Long memberId) {
+        memberRepository.deleteById(memberId);
     }
 
     @Transactional(readOnly = true)
-    public MemberResponse retrieveMember(String username) {
-        return MemberResponse.from(findMemberById(convertId(username)));
+    public MemberResponse retrieveMember(Long memberId) {
+        return MemberResponse.from(findMemberById(memberId));
     }
 
     public Member findMemberById(Long id) {
@@ -39,8 +39,8 @@ public class MemberService {
     }
 
     @Transactional
-    public void updateMemberPassword(String username, MemberPasswordUpdateRequest memberPasswordUpdateRequest) {
-        Member member = findMemberById(convertId(username));
+    public void updateMemberPassword(Long memberId, MemberPasswordUpdateRequest memberPasswordUpdateRequest) {
+        Member member = findMemberById(memberId);
         if(!encoder.matches(memberPasswordUpdateRequest.getOldPassword(), member.getPassword())) {
             throw new IllegalArgumentException();
         }
@@ -52,8 +52,4 @@ public class MemberService {
         member.updatePassword(newPassword);
     }
 
-
-    private Long convertId(String username) {
-        return Long.valueOf(username);
-    }
 }

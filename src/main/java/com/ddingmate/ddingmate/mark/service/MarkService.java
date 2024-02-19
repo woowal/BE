@@ -1,8 +1,6 @@
 package com.ddingmate.ddingmate.mark.service;
 
 import com.ddingmate.ddingmate.mark.domain.Mark;
-import com.ddingmate.ddingmate.mark.dto.request.MarkCreateRequest;
-import com.ddingmate.ddingmate.mark.dto.request.MarkDeleteRequest;
 import com.ddingmate.ddingmate.mark.repository.MarkRepository;
 import com.ddingmate.ddingmate.member.domain.Member;
 import com.ddingmate.ddingmate.member.service.MemberService;
@@ -22,18 +20,21 @@ public class MarkService {
     private final PostService postService;
 
     @Transactional
-    public void createMark(MarkCreateRequest markCreateRequest) {
-        Member member = memberService.findMemberById(markCreateRequest.getMemberId());
-        Post post = postService.findPostById(markCreateRequest.getPostId());
-        Mark mark = markCreateRequest.toEntity(member, post);
+    public void createMark(Long memberId, Long postId) {
+        Member member = memberService.findMemberById(memberId);
+        Post post = postService.findPostById(postId);
+        Mark mark = Mark.builder()
+                        .member(member)
+                        .post(post)
+                        .build();
 
         markRepository.save(mark);
     }
 
     @Transactional
-    public void deleteMark(MarkDeleteRequest markDeleteRequest) {
-        Member member = memberService.findMemberById(markDeleteRequest.getMemberId());
-        Post post = postService.findPostById(markDeleteRequest.getPostId());
+    public void deleteMark(Long memberId, Long postId) {
+        Member member = memberService.findMemberById(memberId);
+        Post post = postService.findPostById(postId);
 
         markRepository.deleteByMemberAndPost(member, post);
     }

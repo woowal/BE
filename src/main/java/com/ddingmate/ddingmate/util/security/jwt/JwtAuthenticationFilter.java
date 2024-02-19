@@ -33,10 +33,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String token = parseBearerToken(request);
         User user = parseUserSpecification(token);
-        AbstractAuthenticationToken authenticated = UsernamePasswordAuthenticationToken.authenticated(user, token, user.getAuthorities());
+        AbstractAuthenticationToken authenticated = createAbstractAuthenticationToken(user, token);
         authenticated.setDetails(new WebAuthenticationDetails(request));
         SecurityContextHolder.getContext().setAuthentication(authenticated);
-
         filterChain.doFilter(request, response);
     }
 
@@ -57,5 +56,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         return new User(split[0], "", List.of(new SimpleGrantedAuthority(split[1])));
     }
 
+    private UsernamePasswordAuthenticationToken createAbstractAuthenticationToken(User user, String token) {
+        if (user.getUsername().matches("\\d+")) {
+            return UsernamePasswordAuthenticationToken.authenticated(Long.valueOf(user.getUsername()), token, user.getAuthorities());
+        }
+        return UsernamePasswordAuthenticationToken.authenticated(user.getUsername(), token, user.getAuthorities());
+    }
 
 }

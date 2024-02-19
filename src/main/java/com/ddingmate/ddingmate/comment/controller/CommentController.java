@@ -6,6 +6,7 @@ import com.ddingmate.ddingmate.comment.dto.response.CommentResponse;
 import com.ddingmate.ddingmate.comment.service.CommentService;
 import com.ddingmate.ddingmate.util.response.ApiResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,15 +19,16 @@ public class CommentController {
     private final CommentService commentService;
 
     @PostMapping()
-    public ApiResponse<Void> createComment(@RequestBody CreateCommentRequest createCommentRequest) {
-        commentService.createComment(createCommentRequest);
+    public ApiResponse<Void> createComment(@AuthenticationPrincipal Long memberId,  @RequestBody CreateCommentRequest createCommentRequest) {
+        commentService.createComment(memberId, createCommentRequest);
         return ApiResponse.ok();
     }
 
     @PostMapping("/reply/{commentId}")
     public ApiResponse<Void> toComment(@PathVariable(name = "commentId") Long id,
+                                       @AuthenticationPrincipal Long memberId,
                                        @RequestBody CreateReplyRequest createReplyRequest) {
-        commentService.createReply(id, createReplyRequest);
+        commentService.createReply(id, memberId, createReplyRequest);
         return ApiResponse.ok();
     }
 
@@ -35,9 +37,9 @@ public class CommentController {
         return ApiResponse.ok(commentService.retrieveCommentByPost(id));
     }
 
-    @GetMapping("/byMember/{memberId}")
-    public ApiResponse<List<CommentResponse>> retrieveCommentByMember(@PathVariable(name = "memberId") Long id) {
-        return ApiResponse.ok(commentService.retrieveCommentByMember(id));
+    @GetMapping("/byMember")
+    public ApiResponse<List<CommentResponse>> retrieveCommentByMember(@AuthenticationPrincipal Long memberId) {
+        return ApiResponse.ok(commentService.retrieveCommentByMember(memberId));
     }
 
     @DeleteMapping("/{commentId}")
