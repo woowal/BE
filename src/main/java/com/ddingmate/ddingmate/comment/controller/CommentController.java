@@ -10,6 +10,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/comment")
@@ -34,12 +35,18 @@ public class CommentController {
 
     @GetMapping("/byPost/{postId}")
     public ApiResponse<List<CommentResponse>> retrieveCommentByPost(@PathVariable(name = "postId") Long id) {
-        return ApiResponse.ok(commentService.retrieveCommentByPost(id));
+        List<CommentResponse> comments = commentService.retrieveCommentByPost(id).stream()
+                .map(CommentResponse::from)
+                .collect(Collectors.toList());
+        return ApiResponse.ok(comments);
     }
 
     @GetMapping("/byMember")
     public ApiResponse<List<CommentResponse>> retrieveCommentByMember(@AuthenticationPrincipal Long memberId) {
-        return ApiResponse.ok(commentService.retrieveCommentByMember(memberId));
+        List<CommentResponse> comments = commentService.retrieveCommentByMember(memberId).stream()
+                .map(CommentResponse::from)
+                .collect(Collectors.toList());
+        return ApiResponse.ok(comments);
     }
 
     @DeleteMapping("/{commentId}")

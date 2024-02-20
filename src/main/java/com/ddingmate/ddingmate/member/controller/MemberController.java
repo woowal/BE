@@ -1,5 +1,6 @@
 package com.ddingmate.ddingmate.member.controller;
 
+import com.ddingmate.ddingmate.member.domain.Member;
 import com.ddingmate.ddingmate.member.dto.request.*;
 import com.ddingmate.ddingmate.member.dto.response.MemberResponse;
 import com.ddingmate.ddingmate.member.service.MemberService;
@@ -38,7 +39,9 @@ public class MemberController {
 
     @GetMapping()
     public ApiResponse<MemberResponse> retrieveMember(@AuthenticationPrincipal Long memberId) {
-        return ApiResponse.ok(memberService.retrieveMember(memberId));
+        Member member = memberService.retrieveMember(memberId);
+
+        return ApiResponse.ok(MemberResponse.from(member));
     }
 
     @PatchMapping("/password")

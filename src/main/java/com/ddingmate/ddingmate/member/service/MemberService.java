@@ -20,7 +20,7 @@ public class MemberService {
 
     @Transactional
     public void updateMember(Long memberId, MemberUpdateRequest memberUpdateRequest) {
-        Member member = findMemberById(memberId);
+        Member member = memberRepository.findById(memberId).get();
         member.update(memberUpdateRequest);
     }
 
@@ -30,17 +30,13 @@ public class MemberService {
     }
 
     @Transactional(readOnly = true)
-    public MemberResponse retrieveMember(Long memberId) {
-        return MemberResponse.from(findMemberById(memberId));
-    }
-
-    public Member findMemberById(Long id) {
-        return memberRepository.findById(id).get();
+    public Member retrieveMember(Long memberId) {
+        return memberRepository.findById(memberId).get();
     }
 
     @Transactional
     public void updateMemberPassword(Long memberId, MemberPasswordUpdateRequest memberPasswordUpdateRequest) {
-        Member member = findMemberById(memberId);
+        Member member = memberRepository.findById(memberId).get();
         if(!encoder.matches(memberPasswordUpdateRequest.getOldPassword(), member.getPassword())) {
             throw new IllegalArgumentException();
         }

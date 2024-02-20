@@ -7,7 +7,6 @@ import com.ddingmate.ddingmate.member.service.MemberService;
 import com.ddingmate.ddingmate.post.domain.Post;
 import com.ddingmate.ddingmate.post.dto.request.PostCreateRequest;
 import com.ddingmate.ddingmate.post.dto.request.PostUpdateRequest;
-import com.ddingmate.ddingmate.post.dto.response.PostResponse;
 import com.ddingmate.ddingmate.post.repository.PostRepository;
 import com.ddingmate.ddingmate.post.state.Category;
 import com.ddingmate.ddingmate.post.state.Type;
@@ -28,7 +27,7 @@ public class PostService {
 
     @Transactional
     public void createPost(Long memberId, PostCreateRequest postCreateRequest) {
-        Member member = memberService.findMemberById(memberId);
+        Member member = memberService.retrieveMember(memberId);
         Post post = postCreateRequest.toEntity(member);
         postRepository.save(post);
     }
@@ -46,46 +45,36 @@ public class PostService {
     }
 
     @Transactional(readOnly = true)
-    public List<PostResponse> retrieveAll() {
-        return postRepository.findAll().stream()
-                .map((post) -> PostResponse.from(post, false))
-                .collect(Collectors.toList());
+    public List<Post> retrieveAll() {
+        return postRepository.findAll();
     }
 
     @Transactional(readOnly = true)
-    public PostResponse retrievePost(Long memberId, Long postId) {
-        Post post = findPostById(postId);
-        boolean isMine = post.getMember().getId().equals(memberId);
-        return PostResponse.from(post, isMine);
+    public Post retrievePost(Long postId) {
+
+        return findPostById(postId);
     }
 
     @Transactional(readOnly = true)
-    public List<PostResponse> retrievePostsByCategory(String categoryValue) {
+    public List<Post> retrievePostsByCategory(String categoryValue) {
         Category category = Category.valueOf(categoryValue);
-        return postRepository.findAllByCategory(category)
-                .stream()
-                .map((post) -> PostResponse.from(post, false))
-                .collect(Collectors.toList());
+        return postRepository.findAllByCategory(category);
     }
 
     @Transactional(readOnly = true)
-    public List<PostResponse> retrievePostsByMark(Long memberId) {
-        Member member = memberService.findMemberById(memberId);
+    public List<Post> retrievePostsByMark(Long memberId) {
+        Member member = memberService.retrieveMember(memberId);
         List<Mark> marks = markRepository.findAllByMember(member);
 
         return marks.stream()
                 .map(Mark::getPost)
-                .map((post) -> PostResponse.from(post, false))
                 .collect(Collectors.toList());
     }
 
     @Transactional(readOnly = true)
-    public List<PostResponse> retrievePostsByType(String typeValue) {
+    public List<Post> retrievePostsByType(String typeValue) {
         Type type = Type.valueOf(typeValue);
-        return postRepository.findAllByType(type)
-                .stream()
-                .map((post) -> PostResponse.from(post, false))
-                .collect(Collectors.toList());
+        return postRepository.findAllByType(type);
     }
 
     public Post findPostById(Long postId) {

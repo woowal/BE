@@ -21,7 +21,7 @@ public class MarkService {
 
     @Transactional
     public void createMark(Long memberId, Long postId) {
-        Member member = memberService.findMemberById(memberId);
+        Member member = memberService.retrieveMember(memberId);
         Post post = postService.findPostById(postId);
         Mark mark = Mark.builder()
                         .member(member)
@@ -33,7 +33,7 @@ public class MarkService {
 
     @Transactional
     public void deleteMark(Long memberId, Long postId) {
-        Member member = memberService.findMemberById(memberId);
+        Member member = memberService.retrieveMember(memberId);
         Post post = postService.findPostById(postId);
 
         markRepository.deleteByMemberAndPost(member, post);
