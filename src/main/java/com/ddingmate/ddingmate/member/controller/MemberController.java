@@ -3,25 +3,21 @@ package com.ddingmate.ddingmate.member.controller;
 import com.ddingmate.ddingmate.member.dto.request.*;
 import com.ddingmate.ddingmate.member.dto.response.MemberResponse;
 import com.ddingmate.ddingmate.member.service.MemberService;
+import com.ddingmate.ddingmate.member.state.UserAuthorize;
 import com.ddingmate.ddingmate.util.response.ApiResponse;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.Authentication;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.web.bind.annotation.*;
 
 
 @RestController
+@UserAuthorize
 @RequestMapping("/api/member")
 @RequiredArgsConstructor
 public class MemberController {
 
     private final MemberService memberService;
-
-//    @GetMapping()
-//    public ApiResponse<MemberResponse> getCurrentMember(@AuthenticationPrincipal User user) {
-//        return ApiResponse.ok(memberService.getCurrentMember(user.getUsername()));
-//    }
 
     @PatchMapping()
     public ApiResponse<Void> updateMember(@AuthenticationPrincipal Long memberId,
