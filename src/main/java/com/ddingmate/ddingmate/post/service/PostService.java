@@ -14,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -75,6 +76,12 @@ public class PostService {
     public List<Post> retrievePostsByType(String typeValue) {
         Type type = Type.valueOf(typeValue);
         return postRepository.findAllByType(type);
+    }
+
+    @Transactional(readOnly = true)
+    public List<Category> retrieveCategory() {
+        return Arrays.stream(Category.values())
+                .collect(Collectors.toList());
     }
 
 }

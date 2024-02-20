@@ -5,6 +5,7 @@ import com.ddingmate.ddingmate.post.dto.request.PostCreateRequest;
 import com.ddingmate.ddingmate.post.dto.request.PostUpdateRequest;
 import com.ddingmate.ddingmate.post.dto.response.PostResponse;
 import com.ddingmate.ddingmate.post.service.PostService;
+import com.ddingmate.ddingmate.post.state.Category;
 import com.ddingmate.ddingmate.util.response.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -85,4 +86,8 @@ public class PostController {
         return ApiResponse.ok(posts);
     }
 
+    @GetMapping("/category")
+    public ApiResponse<List<Category>> retrieveCategory() {
+        return ApiResponse.ok(postService.retrieveCategory());
+    }
 }

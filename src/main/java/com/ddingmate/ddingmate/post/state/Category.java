@@ -7,7 +7,8 @@ import java.util.Arrays;
 @Getter
 public enum Category {
 
-    SPRINGBOOT("springboot"), REACT("react");
+    언어("언어"), 역사("역사"), 철학("철학"), 문화("문화"), 법("법"),
+    교육("교육"), 경제("경제"), 프로그래밍("프로그래밍"), 과학("과학"), 기계("기계"),;
 
     private final String value;
 
