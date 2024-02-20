@@ -1,5 +1,6 @@
 package com.ddingmate.ddingmate.member.controller;
 
+import com.ddingmate.ddingmate.member.domain.Member;
 import com.ddingmate.ddingmate.member.dto.request.*;
 import com.ddingmate.ddingmate.member.dto.response.MemberResponse;
 import com.ddingmate.ddingmate.member.service.MemberService;
@@ -34,13 +35,32 @@ public class MemberController {
 
     @GetMapping()
     public ApiResponse<MemberResponse> retrieveMember(@AuthenticationPrincipal Long memberId) {
-        return ApiResponse.ok(memberService.retrieveMember(memberId));
+        Member member = memberService.retrieveMember(memberId);
+
+        return ApiResponse.ok(MemberResponse.from(member));
     }
 
     @PatchMapping("/password")
     public ApiResponse<Void> updateMemberPassword(@AuthenticationPrincipal Long memberId,
                                                   @RequestBody MemberPasswordUpdateRequest memberPasswordUpdateRequest) {
         memberService.updateMemberPassword(memberId, memberPasswordUpdateRequest);
+
+        return ApiResponse.ok();
+    }
+
+    @PatchMapping("/category/add")
+    public ApiResponse<Void> addMemberCategory(@AuthenticationPrincipal Long memberId,
+                                               @RequestBody CategoryRequest categoryRequest) {
+        memberService.addCategory(memberId, categoryRequest);
+
+        return ApiResponse.ok();
+    }
+
+    @PatchMapping("/category/remove")
+    public ApiResponse<Void> removeMemberCategory(@AuthenticationPrincipal Long memberId,
+                                               @RequestBody CategoryRequest categoryRequest) {
+        memberService.removeCategory(memberId, categoryRequest);
+
         return ApiResponse.ok();
     }
 

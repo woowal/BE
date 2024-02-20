@@ -40,17 +40,15 @@ public class CommentService {
         commentRepository.save(child);
     }
 
-    public List<CommentResponse> retrieveCommentByPost(Long id) {
+    public List<Comment> retrieveCommentByPost(Long id) {
         return commentRepository.findAll().stream()
                 .filter(comment -> comment.getPost().getId().equals(id))
-                .map(CommentResponse::from)
                 .collect(Collectors.toList());
     }
 
-    public List<CommentResponse> retrieveCommentByMember(Long id) {
+    public List<Comment> retrieveCommentByMember(Long id) {
         return commentRepository.findAll().stream()
                 .filter(comment -> comment.getMember().getId().equals(id))
-                .map(CommentResponse::from)
                 .collect(Collectors.toList());
     }
 

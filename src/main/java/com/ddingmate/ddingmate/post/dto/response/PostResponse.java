@@ -6,6 +6,7 @@ import com.ddingmate.ddingmate.post.state.Type;
 import lombok.Getter;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Getter
 public class PostResponse {
@@ -13,19 +14,19 @@ public class PostResponse {
     private String memberName;
     private String title;
     private String content;
-    private Category category;
+    private List<Category> categories;
     private Type type;
     private LocalDate dueDate;
     private int number;
     private String link;
     private boolean isMine;
 
-    public PostResponse(Long postId, String memberName, String title, String content, Category category, Type type, LocalDate dueDate, int number, String link, boolean isMine) {
+    public PostResponse(Long postId, String memberName, String title, String content, List<Category> categories, Type type, LocalDate dueDate, int number, String link, boolean isMine) {
         this.postId = postId;
         this.memberName = memberName;
         this.title = title;
         this.content = content;
-        this.category = category;
+        this.categories = categories;
         this.type = type;
         this.dueDate = dueDate;
         this.number = number;
@@ -39,7 +40,7 @@ public class PostResponse {
                 post.getMember().getName(),
                 post.getTitle(),
                 post.getContent(),
-                post.getCategory(),
+                post.getCategories(),
                 post.getType(),
                 post.getDueDate(),
                 post.getNumber(),

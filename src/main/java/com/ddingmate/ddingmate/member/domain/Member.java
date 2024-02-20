@@ -14,6 +14,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 @Getter
@@ -35,13 +36,13 @@ public class Member {
     private LocalDate birth;
     private String introduction;
     @Convert(converter = CategoryConverter.class)
-    private Category category;
+    private List<Category> categories;
     @Convert(converter = RoleConverter.class)
     private Role role;
 
     @Builder
     public Member(String email, String password, String name, Major major, Long studentId,
-                  LocalDate birth, String introduction, Category category, Role role) {
+                  LocalDate birth, String introduction, List<Category> categories, Role role) {
         this.email = email;
         this.password = password;
         this.name = name;
@@ -49,7 +50,7 @@ public class Member {
         this.studentId = studentId;
         this.birth = birth;
         this.introduction = introduction;
-        this.category = category;
+        this.categories = categories;
         this.role = role;
     }
 
@@ -60,6 +61,14 @@ public class Member {
 
     public void updatePassword(String newPassword) {
         this.password = newPassword;
+    }
+
+    public void addCategory(Category category) {
+        this.categories.add(category);
+    }
+
+    public void removeCategory(Category category) {
+        this.categories.remove(category);
     }
 
 }

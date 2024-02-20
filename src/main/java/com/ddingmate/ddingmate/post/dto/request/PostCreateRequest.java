@@ -9,13 +9,14 @@ import jakarta.persistence.Enumerated;
 import lombok.Getter;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Getter
 public class PostCreateRequest {
     private String title;
     private String content;
     @Enumerated(value = EnumType.STRING)
-    private Category category;
+    private List<Category> categories;
     @Enumerated(value = EnumType.STRING)
     private Type type;
     private LocalDate dueDate;
@@ -27,7 +28,7 @@ public class PostCreateRequest {
                 .member(member)
                 .title(this.title)
                 .content(this.content)
-                .category(this.category)
+                .categories(this.categories)
                 .type(this.type)
                 .dueDate(this.dueDate)
                 .number(this.number)

@@ -13,6 +13,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Getter
 public class MemberCreateRequest {
@@ -35,7 +36,7 @@ public class MemberCreateRequest {
     private String introduction;
     @ValidEnum(enumClass = Category.class)
     @Enumerated(value = EnumType.STRING)
-    private Category category;
+    private List<Category> categories;
 
     public Member toEntity(String encodePassword) {
         return Member.builder()
@@ -46,7 +47,7 @@ public class MemberCreateRequest {
                 .studentId(this.studentId)
                 .birth(this.birth)
                 .introduction(this.introduction)
-                .category(this.category)
+                .categories(this.categories)
                 .role(Role.USER)
                 .build();
     }
