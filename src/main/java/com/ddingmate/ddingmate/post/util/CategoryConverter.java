@@ -1,6 +1,5 @@
 package com.ddingmate.ddingmate.post.util;
 
-import com.ddingmate.ddingmate.member.state.Role;
 import com.ddingmate.ddingmate.post.state.Category;
 import jakarta.persistence.AttributeConverter;
 

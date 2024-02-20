@@ -6,6 +6,7 @@ import com.ddingmate.ddingmate.member.dto.response.EmailResponse;
 import com.ddingmate.ddingmate.member.dto.response.LoginResponse;
 import com.ddingmate.ddingmate.member.service.AccountService;
 import com.ddingmate.ddingmate.member.state.Major;
+import com.ddingmate.ddingmate.member.state.Univ;
 import com.ddingmate.ddingmate.util.response.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -43,10 +44,14 @@ public class AccountController {
         return ApiResponse.ok(accountService.checkAuth(email, code));
     }
 
-    @GetMapping("/major")
-    public ApiResponse<List<Major>> retrieveMajor() {
-        return ApiResponse.ok(accountService.retrieveMajor());
+    @GetMapping("/univ")
+    public ApiResponse<List<Univ>> retrieveUniv() {
+        return ApiResponse.ok(accountService.retrieveUniv());
     }
 
+    @GetMapping("/major")
+    public ApiResponse<List<Major>> retrieveMajor(@RequestParam Univ univ) {
+        return ApiResponse.ok(accountService.retrieveMajor(univ));
+    }
 
 }

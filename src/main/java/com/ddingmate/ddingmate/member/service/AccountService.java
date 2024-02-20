@@ -7,6 +7,7 @@ import com.ddingmate.ddingmate.member.dto.response.EmailResponse;
 import com.ddingmate.ddingmate.member.dto.response.LoginResponse;
 import com.ddingmate.ddingmate.member.repository.MemberRepository;
 import com.ddingmate.ddingmate.member.state.Major;
+import com.ddingmate.ddingmate.member.state.Univ;
 import com.ddingmate.ddingmate.util.security.jwt.TokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.mail.SimpleMailMessage;
@@ -47,9 +48,13 @@ public class AccountService {
         return new LoginResponse(targetMember.getName(), targetMember.getRole(), token);
     }
 
-    public List<Major> retrieveMajor() {
-        return Arrays.stream(Major.values())
+    public List<Univ> retrieveUniv() {
+        return Arrays.stream(Univ.values())
                 .collect(Collectors.toList());
+    }
+
+    public List<Major> retrieveMajor(Univ univ) {
+        return Arrays.asList(univ.getContainMajors());
     }
 
     // TODO 명지대 이메일 확인을 위한 메서드

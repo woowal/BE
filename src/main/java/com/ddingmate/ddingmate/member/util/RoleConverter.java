@@ -1,6 +1,5 @@
 package com.ddingmate.ddingmate.member.util;
 
-import com.ddingmate.ddingmate.member.state.Major;
 import com.ddingmate.ddingmate.member.state.Role;
 import jakarta.persistence.AttributeConverter;
 import jakarta.persistence.Convert;

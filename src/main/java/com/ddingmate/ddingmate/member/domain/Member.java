@@ -1,6 +1,5 @@
 package com.ddingmate.ddingmate.member.domain;
 
-import com.ddingmate.ddingmate.member.dto.request.MemberPasswordUpdateRequest;
 import com.ddingmate.ddingmate.member.dto.request.MemberUpdateRequest;
 import com.ddingmate.ddingmate.member.state.Major;
 import com.ddingmate.ddingmate.member.state.Role;
