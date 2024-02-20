@@ -13,6 +13,7 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 @Getter
@@ -30,7 +31,7 @@ public class Post {
     private Member member;
     private String title;
     private String content;
-    private Category category;
+    private List<Category> categories;
     private Type type;
     private LocalDate dueDate;
     private int number;
@@ -38,11 +39,11 @@ public class Post {
     private LocalDate created;
 
     @Builder
-    public Post(Member member, String title, String content, Category category, Type type, LocalDate dueDate, int number, String link, LocalDate created) {
+    public Post(Member member, String title, String content, List<Category> categories, Type type, LocalDate dueDate, int number, String link, LocalDate created) {
         this.member = member;
         this.title = title;
         this.content = content;
-        this.category = category;
+        this.categories = categories;
         this.type = type;
         this.dueDate = dueDate;
         this.number = number;
@@ -53,7 +54,7 @@ public class Post {
     public void update(PostUpdateRequest postUpdateRequest) {
         this.title = postUpdateRequest.getTitle();;
         this.content = postUpdateRequest.getContent();;
-        this.category = postUpdateRequest.getCategory();
+        this.categories = postUpdateRequest.getCategories();
         this.type = postUpdateRequest.getType();
         this.dueDate = postUpdateRequest.getDueDate();
         this.number = postUpdateRequest.getNumber();

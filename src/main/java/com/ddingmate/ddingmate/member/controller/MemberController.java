@@ -48,6 +48,23 @@ public class MemberController {
     public ApiResponse<Void> updateMemberPassword(@AuthenticationPrincipal Long memberId,
                                                   @RequestBody MemberPasswordUpdateRequest memberPasswordUpdateRequest) {
         memberService.updateMemberPassword(memberId, memberPasswordUpdateRequest);
+
+        return ApiResponse.ok();
+    }
+
+    @PatchMapping("/category/add")
+    public ApiResponse<Void> addMemberCategory(@AuthenticationPrincipal Long memberId,
+                                               @RequestBody CategoryRequest categoryRequest) {
+        memberService.addCategory(memberId, categoryRequest);
+
+        return ApiResponse.ok();
+    }
+
+    @PatchMapping("/category/remove")
+    public ApiResponse<Void> removeMemberCategory(@AuthenticationPrincipal Long memberId,
+                                               @RequestBody CategoryRequest categoryRequest) {
+        memberService.removeCategory(memberId, categoryRequest);
+
         return ApiResponse.ok();
     }
 

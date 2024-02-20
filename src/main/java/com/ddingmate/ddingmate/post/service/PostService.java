@@ -5,6 +5,7 @@ import com.ddingmate.ddingmate.mark.repository.MarkRepository;
 import com.ddingmate.ddingmate.member.domain.Member;
 import com.ddingmate.ddingmate.member.service.MemberService;
 import com.ddingmate.ddingmate.post.domain.Post;
+import com.ddingmate.ddingmate.post.dto.request.PostCategoryRequest;
 import com.ddingmate.ddingmate.post.dto.request.PostCreateRequest;
 import com.ddingmate.ddingmate.post.dto.request.PostUpdateRequest;
 import com.ddingmate.ddingmate.post.repository.PostRepository;
@@ -57,9 +58,12 @@ public class PostService {
     }
 
     @Transactional(readOnly = true)
-    public List<Post> retrievePostsByCategory(String categoryValue) {
-        Category category = Category.valueOf(categoryValue);
-        return postRepository.findAllByCategory(category);
+    public List<Post> retrievePostsByCategory(PostCategoryRequest postCategoryRequest) {
+        List<Category> categories = postCategoryRequest.getCategories();
+
+        return postRepository.findAll().stream()
+                .filter(post -> post.getCategories().stream().anyMatch(categories::contains))
+                .collect(Collectors.toList());
     }
 
     @Transactional(readOnly = true)

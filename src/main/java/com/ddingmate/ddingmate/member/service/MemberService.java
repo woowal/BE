@@ -48,4 +48,29 @@ public class MemberService {
         member.updatePassword(newPassword);
     }
 
+    @Transactional
+    public void addCategory(Long memberId, CategoryRequest categoryRequest) {
+        Member member = memberRepository.findById(memberId).get();
+        if(member.getCategories() == null) {
+            member.addCategory(categoryRequest.getCategory());
+            return;
+        }
+        if(member.getCategories().contains(categoryRequest.getCategory())) {
+            throw new IllegalArgumentException("이미 선호하는 카테고리입니다");
+        }
+        member.addCategory(categoryRequest.getCategory());
+    }
+
+    @Transactional
+    public void removeCategory(Long memberId, CategoryRequest categoryRequest) {
+        Member member = memberRepository.findById(memberId).get();
+        if (member.getCategories() == null) {
+            throw new IllegalArgumentException("이미 선호하지 않는 카테고리입니다");
+        }
+        if(!member.getCategories().contains(categoryRequest.getCategory())) {
+            throw new IllegalArgumentException("이미 선호하지 않는 카테고리입니다");
+        }
+        member.removeCategory(categoryRequest.getCategory());
+    }
+
 }

@@ -1,6 +1,7 @@
 package com.ddingmate.ddingmate.post.controller;
 
 import com.ddingmate.ddingmate.post.domain.Post;
+import com.ddingmate.ddingmate.post.dto.request.PostCategoryRequest;
 import com.ddingmate.ddingmate.post.dto.request.PostCreateRequest;
 import com.ddingmate.ddingmate.post.dto.request.PostUpdateRequest;
 import com.ddingmate.ddingmate.post.dto.response.PostResponse;
@@ -59,9 +60,9 @@ public class PostController {
         return ApiResponse.ok(PostResponse.from(post, isMine));
     }
 
-    @GetMapping("/catecory/{category}")
-    public ApiResponse<List> retrievePostsByCategory(@PathVariable String category) {
-        List<PostResponse> posts = postService.retrievePostsByCategory(category).stream()
+    @GetMapping("/category")
+    public ApiResponse<List> retrievePostsByCategory(@RequestBody PostCategoryRequest postCategoryRequest) {
+        List<PostResponse> posts = postService.retrievePostsByCategory(postCategoryRequest).stream()
                 .map(post -> PostResponse.from(post, false))
                 .collect(Collectors.toList());
 
@@ -86,7 +87,7 @@ public class PostController {
         return ApiResponse.ok(posts);
     }
 
-    @GetMapping("/category")
+    @GetMapping("/categories")
     public ApiResponse<List<Category>> retrieveCategory() {
         return ApiResponse.ok(postService.retrieveCategory());
     }
