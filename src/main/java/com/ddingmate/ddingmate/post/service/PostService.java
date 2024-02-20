@@ -39,7 +39,7 @@ public class PostService {
 
     @Transactional
     public Boolean updatePost(Long postId, PostUpdateRequest postUpdateRequest) {
-        Post post = findPostById(postId);
+        Post post = postRepository.findById(postId).get();
         post.update(postUpdateRequest);
         return true;
     }
@@ -52,7 +52,7 @@ public class PostService {
     @Transactional(readOnly = true)
     public Post retrievePost(Long postId) {
 
-        return findPostById(postId);
+        return postRepository.findById(postId).get();
     }
 
     @Transactional(readOnly = true)
@@ -77,7 +77,4 @@ public class PostService {
         return postRepository.findAllByType(type);
     }
 
-    public Post findPostById(Long postId) {
-        return postRepository.findById(postId).get();
-    }
 }
