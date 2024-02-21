@@ -64,7 +64,7 @@ public class AccountService {
         SimpleMailMessage message = new SimpleMailMessage();
         message.setTo(email);
         message.setSubject("테스트 이메일");
-        message.setText("인증번호 테스트: " + validationToken);
+        message.setText("인증번호 테스트: " + key);
 
         this.validationToken.put(email, key);
         mailSender.send(message);
