@@ -8,9 +8,9 @@ import java.time.LocalDate;
 import java.util.List;
 
 @Builder
-public record MemberResponse(String name, String major, LocalDate birth, String introduction, List<Category> categories) {
+public record MemberResponse(String name, String major, LocalDate birth, Long studentId, String introduction, List<Category> categories) {
 
     public static MemberResponse from(Member member) {
-        return new MemberResponse(member.getName(), member.getMajor().getValue(), member.getBirth(), member.getIntroduction(), member.getCategories());
+        return new MemberResponse(member.getName(), member.getMajor().getValue(), member.getBirth(), member.getStudentId(), member.getIntroduction(), member.getCategories());
     }
 }
