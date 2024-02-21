@@ -27,6 +27,7 @@ public class AccountService {
     private final String SPLIT_TOKEN = "@";
     private final String EMAIL_FORM = "mju.ac.kr";
     private HashMap<String, String> validationToken = new HashMap<>();
+    private static String key;
     private final MemberRepository memberRepository;
     private final TokenProvider tokenProvider;
     private final BCryptPasswordEncoder encoder;
@@ -60,7 +61,7 @@ public class AccountService {
     // TODO 명지대 이메일 확인을 위한 메서드
     public EmailResponse sendEmailAuth(String email) {
         validEmail(email);
-        String key = createCode();
+        createCode();
         SimpleMailMessage message = new SimpleMailMessage();
         message.setTo(email);
         message.setSubject("테스트 이메일");
@@ -89,7 +90,7 @@ public class AccountService {
         return "false";
     }
 
-    private String createCode() {
+    private void createCode() {
         Random random = new Random();
         StringBuffer key = new StringBuffer();
 
@@ -102,7 +103,7 @@ public class AccountService {
                 default: key.append(random.nextInt(9));
             }
         }
-        return key.toString();
+        this.key = key.toString();
     }
 
     private void checkPassword(String password, String passwordCheck) {
