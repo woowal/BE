@@ -1,10 +1,13 @@
 package com.ddingmate.ddingmate.post.controller;
 
+import com.ddingmate.ddingmate.post.domain.Post;
+import com.ddingmate.ddingmate.post.dto.request.PostCategoryRequest;
 import com.ddingmate.ddingmate.member.state.UserAuthorize;
 import com.ddingmate.ddingmate.post.dto.request.PostCreateRequest;
 import com.ddingmate.ddingmate.post.dto.request.PostUpdateRequest;
 import com.ddingmate.ddingmate.post.dto.response.PostResponse;
 import com.ddingmate.ddingmate.post.service.PostService;
+import com.ddingmate.ddingmate.post.state.Category;
 import com.ddingmate.ddingmate.util.response.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -12,6 +15,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/post")
@@ -44,28 +48,52 @@ public class PostController {
 
     @GetMapping("/all")
     public ApiResponse<List> retrieveAll() {
-        return ApiResponse.ok(postService.retrieveAll());
+        List<PostResponse> posts = postService.retrieveAll().stream()
+                .map(post -> PostResponse.from(post, false))
+                .collect(Collectors.toList());
+
+        return ApiResponse.ok(posts);
     }
 
     @GetMapping("/{postId}")
     public ApiResponse<PostResponse> retrievePost(@AuthenticationPrincipal Long memberId, @PathVariable Long postId) {
-        return ApiResponse.ok(postService.retrievePost(memberId, postId));
+        Post post = postService.retrievePost(postId);
+
+        boolean isMine = post.getMember().getId().equals(memberId);
+
+        return ApiResponse.ok(PostResponse.from(post, isMine));
     }
 
-    @GetMapping("/catecory/{category}")
-    public ApiResponse<List> retrievePostsByCategory(@PathVariable String category) {
-        return ApiResponse.ok(postService.retrievePostsByCategory(category));
+    @GetMapping("/category")
+    public ApiResponse<List> retrievePostsByCategory(@RequestBody PostCategoryRequest postCategoryRequest) {
+        List<PostResponse> posts = postService.retrievePostsByCategory(postCategoryRequest).stream()
+                .map(post -> PostResponse.from(post, false))
+                .collect(Collectors.toList());
+
+        return ApiResponse.ok(posts);
     }
 
     @GetMapping("/mark")
     @UserAuthorize
     public ApiResponse<List> retrievePostsByMark(@AuthenticationPrincipal Long memberId) {
-        return ApiResponse.ok(postService.retrievePostsByMark(memberId));
+        List<PostResponse> posts = postService.retrievePostsByMark(memberId).stream()
+                .map(post -> PostResponse.from(post, false))
+                .collect(Collectors.toList());
+
+        return ApiResponse.ok(posts);
     }
 
     @GetMapping("/type/{type}")
     public ApiResponse<List> retrievePostsByType(@PathVariable String type) {
-        return ApiResponse.ok(postService.retrievePostsByType(type));
+        List<PostResponse> posts = postService.retrievePostsByType(type).stream()
+                .map(post -> PostResponse.from(post, false))
+                .collect(Collectors.toList());
+
+        return ApiResponse.ok(posts);
     }
 
+    @GetMapping("/categories")
+    public ApiResponse<List<Category>> retrieveCategory() {
+        return ApiResponse.ok(postService.retrieveCategory());
+    }
 }

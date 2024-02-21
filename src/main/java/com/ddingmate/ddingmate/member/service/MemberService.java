@@ -20,7 +20,7 @@ public class MemberService {
 
     @Transactional
     public void updateMember(Long memberId, MemberUpdateRequest memberUpdateRequest) {
-        Member member = findMemberById(memberId);
+        Member member = memberRepository.findById(memberId).get();
         member.update(memberUpdateRequest);
     }
 
@@ -30,17 +30,13 @@ public class MemberService {
     }
 
     @Transactional(readOnly = true)
-    public MemberResponse retrieveMember(Long memberId) {
-        return MemberResponse.from(findMemberById(memberId));
-    }
-
-    public Member findMemberById(Long id) {
-        return memberRepository.findById(id).get();
+    public Member retrieveMember(Long memberId) {
+        return memberRepository.findById(memberId).get();
     }
 
     @Transactional
     public void updateMemberPassword(Long memberId, MemberPasswordUpdateRequest memberPasswordUpdateRequest) {
-        Member member = findMemberById(memberId);
+        Member member = memberRepository.findById(memberId).get();
         if(!encoder.matches(memberPasswordUpdateRequest.getOldPassword(), member.getPassword())) {
             throw new IllegalArgumentException();
         }
@@ -50,6 +46,31 @@ public class MemberService {
         }
         String newPassword = encoder.encode(memberPasswordUpdateRequest.getNewPassword());
         member.updatePassword(newPassword);
+    }
+
+    @Transactional
+    public void addCategory(Long memberId, CategoryRequest categoryRequest) {
+        Member member = memberRepository.findById(memberId).get();
+        if(member.getCategories() == null) {
+            member.addCategory(categoryRequest.getCategory());
+            return;
+        }
+        if(member.getCategories().contains(categoryRequest.getCategory())) {
+            throw new IllegalArgumentException("이미 선호하는 카테고리입니다");
+        }
+        member.addCategory(categoryRequest.getCategory());
+    }
+
+    @Transactional
+    public void removeCategory(Long memberId, CategoryRequest categoryRequest) {
+        Member member = memberRepository.findById(memberId).get();
+        if (member.getCategories() == null) {
+            throw new IllegalArgumentException("이미 선호하지 않는 카테고리입니다");
+        }
+        if(!member.getCategories().contains(categoryRequest.getCategory())) {
+            throw new IllegalArgumentException("이미 선호하지 않는 카테고리입니다");
+        }
+        member.removeCategory(categoryRequest.getCategory());
     }
 
 }
