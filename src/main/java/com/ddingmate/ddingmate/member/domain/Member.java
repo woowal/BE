@@ -60,6 +60,10 @@ public class Member {
     }
 
     public void update(MemberUpdateRequest memberUpdateRequest) {
+        this.name = memberUpdateRequest.getName();
+        this.studentId = memberUpdateRequest.getStudentId();
+        this.birth = memberUpdateRequest.getBirth();
+        this.categories = memberUpdateRequest.getCategories();
         this.introduction = memberUpdateRequest.getIntroduction();
         this.univ = memberUpdateRequest.getUniv();
         this.major = memberUpdateRequest.getMajor();
