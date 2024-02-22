@@ -1,9 +1,11 @@
 package com.ddingmate.ddingmate.member.service;
 
+import com.ddingmate.ddingmate.comment.repository.CommentRepository;
 import com.ddingmate.ddingmate.member.domain.Member;
 import com.ddingmate.ddingmate.member.dto.request.*;
 import com.ddingmate.ddingmate.member.dto.response.MemberResponse;
 import com.ddingmate.ddingmate.member.repository.MemberRepository;
+import com.ddingmate.ddingmate.post.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -16,6 +18,8 @@ import java.io.Console;
 public class MemberService {
 
     private final MemberRepository memberRepository;
+    private final CommentRepository commentRepository;
+    private final PostRepository postRepository;
     private final BCryptPasswordEncoder encoder;
 
     @Transactional
@@ -26,6 +30,9 @@ public class MemberService {
 
     @Transactional
     public void deleteMember(Long memberId) {
+        Member member = memberRepository.findById(memberId).get();
+        commentRepository.deleteByMember(member);
+        postRepository.deleteByMember(member);
         memberRepository.deleteById(memberId);
     }
 

@@ -1,5 +1,6 @@
 package com.ddingmate.ddingmate.post.service;
 
+import com.ddingmate.ddingmate.comment.repository.CommentRepository;
 import com.ddingmate.ddingmate.mark.domain.Mark;
 import com.ddingmate.ddingmate.mark.repository.MarkRepository;
 import com.ddingmate.ddingmate.member.domain.Member;
@@ -24,6 +25,7 @@ import java.util.stream.Collectors;
 public class PostService {
 
     private final PostRepository postRepository;
+    private final CommentRepository commentRepository;
     private final MemberService memberService;
     private final MarkRepository markRepository;
 
@@ -36,6 +38,8 @@ public class PostService {
 
     @Transactional
     public void deletePost(Long id) {
+        Post post = postRepository.findById(id).get();
+        commentRepository.deleteByPost(post);
         postRepository.deleteById(id);
     }
 

@@ -63,20 +63,6 @@ public class CommentService {
     public void updateComment(Long id, String content) {
         Comment comment = commentRepository.findById(id).get();
         comment.update(content);
-
-//        if(comment.isPresent()) {
-//            Comment targetComment = comment.get();
-//            targetComment.update(content);
-//        }
     }
 
-    /*
-    // TODO 검증의 책임과 반환의 책임을 분리하는 방법?
-    private void checkCommentExist(Long id) {
-        Optional<Comment> comment = commentRepository.findById(id);
-        if(comment.isPresent()) {
-
-        }
-    }
-    */
 }
