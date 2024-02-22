@@ -36,7 +36,6 @@ public class MemberController {
     @GetMapping()
     public ApiResponse<MemberResponse> retrieveMember(@AuthenticationPrincipal Long memberId) {
         Member member = memberService.retrieveMember(memberId);
-
         return ApiResponse.ok(MemberResponse.from(member));
     }
 

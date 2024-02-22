@@ -3,6 +3,7 @@ package com.ddingmate.ddingmate.member.dto.request;
 import com.ddingmate.ddingmate.member.domain.Member;
 import com.ddingmate.ddingmate.member.state.Major;
 import com.ddingmate.ddingmate.member.state.Role;
+import com.ddingmate.ddingmate.member.state.Univ;
 import com.ddingmate.ddingmate.post.state.Category;
 import com.ddingmate.ddingmate.util.valid.ValidEnum;
 import com.ddingmate.ddingmate.util.valid.YearMonth;
@@ -26,6 +27,9 @@ public class MemberCreateRequest {
     private String passwordCheck;
     @NotEmpty
     private String name;
+    @ValidEnum(enumClass = Univ.class)
+    @Enumerated(value = EnumType.STRING)
+    private Univ univ;
     @ValidEnum(enumClass = Major.class)
     @Enumerated(value = EnumType.STRING)
     private Major major;
@@ -48,6 +52,7 @@ public class MemberCreateRequest {
                 .birth(this.birth)
                 .introduction(this.introduction)
                 .categories(this.categories)
+                .univ(this.univ)
                 .role(Role.USER)
                 .build();
     }

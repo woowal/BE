@@ -3,8 +3,10 @@ package com.ddingmate.ddingmate.member.domain;
 import com.ddingmate.ddingmate.member.dto.request.MemberUpdateRequest;
 import com.ddingmate.ddingmate.member.state.Major;
 import com.ddingmate.ddingmate.member.state.Role;
+import com.ddingmate.ddingmate.member.state.Univ;
 import com.ddingmate.ddingmate.member.util.MajorConverter;
 import com.ddingmate.ddingmate.member.util.RoleConverter;
+import com.ddingmate.ddingmate.member.util.UnivConverter;
 import com.ddingmate.ddingmate.post.state.Category;
 import com.ddingmate.ddingmate.post.util.CategoryConverter;
 import jakarta.persistence.*;
@@ -35,6 +37,8 @@ public class Member {
     private Long studentId;
     private LocalDate birth;
     private String introduction;
+    @Convert(converter = UnivConverter.class)
+    private Univ univ;
     @Convert(converter = CategoryConverter.class)
     private List<Category> categories;
     @Convert(converter = RoleConverter.class)
@@ -42,7 +46,7 @@ public class Member {
 
     @Builder
     public Member(String email, String password, String name, Major major, Long studentId,
-                  LocalDate birth, String introduction, List<Category> categories, Role role) {
+                  LocalDate birth, String introduction, Univ univ, List<Category> categories, Role role) {
         this.email = email;
         this.password = password;
         this.name = name;
@@ -50,6 +54,7 @@ public class Member {
         this.studentId = studentId;
         this.birth = birth;
         this.introduction = introduction;
+        this.univ = univ;
         this.categories = categories;
         this.role = role;
     }

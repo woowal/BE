@@ -7,7 +7,7 @@ import java.util.Arrays;
 @Getter
 public enum Univ {
 
-    ICT융합대학("ICT 융합대학", new Major[]{
+    ICT융합대학("ICT융합대학", new Major[]{
             Major.응용소프트웨어, Major.데이터테크놀로지, Major.디지털콘텐츠디자인, Major.정보통신공학
     }),
     인문대학("인문대학", new Major[] {
@@ -54,17 +54,17 @@ public enum Univ {
     })
     ;
 
-    private String univ;
+    private String value;
     private Major[] containMajors;
 
-    Univ(String univ, Major[] containMajors) {
-        this.univ = univ;
+    Univ(String value, Major[] containMajors) {
+        this.value = value;
         this.containMajors = containMajors;
     }
 
     public static Univ fromCode(String db) {
         return Arrays.stream(Univ.values())
-                .filter(v -> v.getUniv().equals(db))
+                .filter(v -> v.getValue().equals(db))
                 .findAny()
                 .orElseThrow(() -> new IllegalArgumentException(String.format("대학 카테고리에 %s가 존재하지 않습니다.", db)));
     }
