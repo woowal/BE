@@ -4,6 +4,7 @@ import com.ddingmate.ddingmate.member.domain.Member;
 import com.ddingmate.ddingmate.post.dto.request.PostUpdateRequest;
 import com.ddingmate.ddingmate.post.state.Category;
 import com.ddingmate.ddingmate.post.state.Type;
+import com.ddingmate.ddingmate.post.util.CategoryConverter;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -28,6 +29,7 @@ public class Post {
     private Member member;
     private String title;
     private String content;
+    @Convert(converter = CategoryConverter.class)
     private List<Category> categories;
     private Type type;
     private LocalDate dueDate;

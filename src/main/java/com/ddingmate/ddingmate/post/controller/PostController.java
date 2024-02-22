@@ -28,7 +28,6 @@ public class PostController {
     @UserAuthorize
     public ApiResponse<Void> createPost(@AuthenticationPrincipal Long memberId, @RequestBody PostCreateRequest postCreateRequest) {
         postService.createPost(memberId, postCreateRequest);
-
         return ApiResponse.ok();
     }
 
