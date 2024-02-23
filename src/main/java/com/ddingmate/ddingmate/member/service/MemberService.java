@@ -15,6 +15,7 @@ import java.io.Console;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class MemberService {
 
     private final MemberRepository memberRepository;
@@ -36,7 +37,6 @@ public class MemberService {
         memberRepository.deleteById(memberId);
     }
 
-    @Transactional(readOnly = true)
     public Member retrieveMember(Long memberId) {
         return memberRepository.findById(memberId).get();
     }

@@ -22,6 +22,7 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class PostService {
 
     private final PostRepository postRepository;
@@ -50,18 +51,14 @@ public class PostService {
         return true;
     }
 
-    @Transactional(readOnly = true)
     public List<Post> retrieveAll() {
         return postRepository.findAll();
     }
 
-    @Transactional(readOnly = true)
     public Post retrievePost(Long postId) {
-
         return postRepository.findById(postId).get();
     }
 
-    @Transactional(readOnly = true)
     public List<Post> retrievePostsByCategory(PostCategoryRequest postCategoryRequest) {
         List<Category> categories = postCategoryRequest.getCategories();
 
@@ -70,7 +67,6 @@ public class PostService {
                 .collect(Collectors.toList());
     }
 
-    @Transactional(readOnly = true)
     public List<Post> retrievePostsByMark(Long memberId) {
         Member member = memberService.retrieveMember(memberId);
         List<Mark> marks = markRepository.findAllByMember(member);
@@ -80,13 +76,11 @@ public class PostService {
                 .collect(Collectors.toList());
     }
 
-    @Transactional(readOnly = true)
     public List<Post> retrievePostsByType(String typeValue) {
         Type type = Type.valueOf(typeValue);
         return postRepository.findAllByType(type);
     }
 
-    @Transactional(readOnly = true)
     public List<Category> retrieveCategory() {
         return Arrays.stream(Category.values())
                 .collect(Collectors.toList());
