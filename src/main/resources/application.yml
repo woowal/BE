@@ -3,9 +3,10 @@ spring:
     active: dev
     include: secret
   datasource:
-    url: jdbc:mysql://ddingmate-database.cly6q246c2da.ap-northeast-2.rds.amazonaws.com:3306/ddingmate
-    username: admin
-    password: tlarbckd17
+#    url: jdbc:mysql://ddingmate-database.cly6q246c2da.ap-northeast-2.rds.amazonaws.com:3306/ddingmate
+    url: ${secrets.DB_URL}
+    username: ${secrets.DB_USERNAME}
+    password: ${secrets.DB_PASSWORD}
     hikari:
       driver-class-name: com.mysql.cj.jdbc.Driver
   mail:
