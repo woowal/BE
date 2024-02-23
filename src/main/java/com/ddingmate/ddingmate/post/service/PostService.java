@@ -50,7 +50,13 @@ public class PostService {
     @Transactional
     public Boolean updatePost(Long postId, PostUpdateRequest postUpdateRequest) {
         Post post = postRepository.findById(postId).orElseThrow(() -> new NoSuchElementException(NO_SUCH_POST.getErrorMessage()));
-        post.update(postUpdateRequest);
+        post.update(postUpdateRequest.getTitle(),
+                postUpdateRequest.getContent(),
+                postUpdateRequest.getCategories(),
+                postUpdateRequest.getType(),
+                postUpdateRequest.getDueDate(),
+                postUpdateRequest.getNumber(),
+                postUpdateRequest.getLink());
         return true;
     }
 

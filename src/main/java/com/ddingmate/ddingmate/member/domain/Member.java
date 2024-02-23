@@ -59,26 +59,18 @@ public class Member {
         this.role = role;
     }
 
-    public void update(MemberUpdateRequest memberUpdateRequest) {
-        this.name = memberUpdateRequest.getName();
-        this.studentId = memberUpdateRequest.getStudentId();
-        this.birth = memberUpdateRequest.getBirth();
-        this.categories = memberUpdateRequest.getCategories();
-        this.introduction = memberUpdateRequest.getIntroduction();
-        this.univ = memberUpdateRequest.getUniv();
-        this.major = memberUpdateRequest.getMajor();
+    public void update(String name, String introduction, Long studentId, LocalDate birth, Univ univ, Major major, List<Category> categories) {
+        this.name = name;
+        this.studentId = studentId;
+        this.birth = birth;
+        this.categories = categories;
+        this.introduction = introduction;
+        this.univ = univ;
+        this.major = major;
     }
 
     public void updatePassword(String newPassword) {
         this.password = newPassword;
-    }
-
-    public void addCategory(Category category) {
-        this.categories.add(category);
-    }
-
-    public void removeCategory(Category category) {
-        this.categories.remove(category);
     }
 
 }

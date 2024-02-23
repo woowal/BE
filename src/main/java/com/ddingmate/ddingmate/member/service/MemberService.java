@@ -29,7 +29,13 @@ public class MemberService {
     @Transactional
     public void updateMember(Long memberId, MemberUpdateRequest memberUpdateRequest) {
         Member member = memberRepository.findById(memberId).orElseThrow(() -> new NoSuchElementException(NO_SUCH_MEMBER.getErrorMessage()));
-        member.update(memberUpdateRequest);
+        member.update(memberUpdateRequest.getName(),
+                memberUpdateRequest.getIntroduction(),
+                memberUpdateRequest.getStudentId(),
+                memberUpdateRequest.getBirth(),
+                memberUpdateRequest.getUniv(),
+                memberUpdateRequest.getMajor(),
+                memberUpdateRequest.getCategories());
     }
 
     @Transactional

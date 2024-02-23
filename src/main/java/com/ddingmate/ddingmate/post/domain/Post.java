@@ -50,13 +50,13 @@ public class Post {
         this.created = LocalDate.now();
     }
 
-    public void update(PostUpdateRequest postUpdateRequest) {
-        this.title = postUpdateRequest.getTitle();;
-        this.content = postUpdateRequest.getContent();;
-        this.categories = postUpdateRequest.getCategories();
-        this.type = postUpdateRequest.getType();
-        this.dueDate = postUpdateRequest.getDueDate();
-        this.number = postUpdateRequest.getNumber();
-        this.link = postUpdateRequest.getLink();
+    public void update(String title, String content, List<Category> categories, Type type, LocalDate dueDate, int number, String link) {
+        this.title = title;
+        this.content = content;
+        this.categories = categories;
+        this.type = type;
+        this.dueDate = dueDate;
+        this.number = number;
+        this.link = link;
     }
 }
