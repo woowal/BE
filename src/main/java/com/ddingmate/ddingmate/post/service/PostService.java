@@ -18,7 +18,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
+
+import static com.ddingmate.ddingmate.util.exception.ExceptionEnum.NO_SUCH_POST;
 
 @Service
 @RequiredArgsConstructor
@@ -39,14 +42,14 @@ public class PostService {
 
     @Transactional
     public void deletePost(Long id) {
-        Post post = postRepository.findById(id).get();
+        Post post = postRepository.findById(id).orElseThrow(() -> new NoSuchElementException(NO_SUCH_POST.getErrorMessage()));
         commentRepository.deleteByPost(post);
         postRepository.deleteById(id);
     }
 
     @Transactional
     public Boolean updatePost(Long postId, PostUpdateRequest postUpdateRequest) {
-        Post post = postRepository.findById(postId).get();
+        Post post = postRepository.findById(postId).orElseThrow(() -> new NoSuchElementException(NO_SUCH_POST.getErrorMessage()));
         post.update(postUpdateRequest);
         return true;
     }
@@ -56,7 +59,7 @@ public class PostService {
     }
 
     public Post retrievePost(Long postId) {
-        return postRepository.findById(postId).get();
+        return postRepository.findById(postId).orElseThrow(() -> new NoSuchElementException(NO_SUCH_POST.getErrorMessage()));
     }
 
     public List<Post> retrievePostsByCategory(PostCategoryRequest postCategoryRequest) {

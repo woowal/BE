@@ -12,6 +12,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.Console;
+import java.util.NoSuchElementException;
+
+import static com.ddingmate.ddingmate.util.exception.ExceptionEnum.*;
 
 @Service
 @RequiredArgsConstructor
@@ -25,59 +28,34 @@ public class MemberService {
 
     @Transactional
     public void updateMember(Long memberId, MemberUpdateRequest memberUpdateRequest) {
-        Member member = memberRepository.findById(memberId).get();
+        Member member = memberRepository.findById(memberId).orElseThrow(() -> new NoSuchElementException(NO_SUCH_MEMBER.getErrorMessage()));
         member.update(memberUpdateRequest);
     }
 
     @Transactional
     public void deleteMember(Long memberId) {
-        Member member = memberRepository.findById(memberId).get();
+        Member member = memberRepository.findById(memberId).orElseThrow(() -> new NoSuchElementException(NO_SUCH_MEMBER.getErrorMessage()));
         commentRepository.deleteByMember(member);
         postRepository.deleteByMember(member);
         memberRepository.deleteById(memberId);
     }
 
     public Member retrieveMember(Long memberId) {
-        return memberRepository.findById(memberId).get();
+        return memberRepository.findById(memberId).orElseThrow(() -> new NoSuchElementException(NO_SUCH_MEMBER.getErrorMessage()));
     }
 
     @Transactional
     public void updateMemberPassword(Long memberId, MemberPasswordUpdateRequest memberPasswordUpdateRequest) {
-        Member member = memberRepository.findById(memberId).get();
+        Member member = memberRepository.findById(memberId).orElseThrow(() -> new NoSuchElementException(NO_SUCH_MEMBER.getErrorMessage()));
         if(!encoder.matches(memberPasswordUpdateRequest.getOldPassword(), member.getPassword())) {
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException(FAILED_TO_AUTH_PASSWORD.getErrorMessage());
         }
 
         if(!memberPasswordUpdateRequest.getNewPassword().equals(memberPasswordUpdateRequest.getNewPasswordCheck())) {
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException(NOT_MATCHED_PASSWORD.getErrorMessage());
         }
         String newPassword = encoder.encode(memberPasswordUpdateRequest.getNewPassword());
         member.updatePassword(newPassword);
-    }
-
-    @Transactional
-    public void addCategory(Long memberId, CategoryRequest categoryRequest) {
-        Member member = memberRepository.findById(memberId).get();
-        if(member.getCategories() == null) {
-            member.addCategory(categoryRequest.getCategory());
-            return;
-        }
-        if(member.getCategories().contains(categoryRequest.getCategory())) {
-            throw new IllegalArgumentException("이미 선호하는 카테고리입니다");
-        }
-        member.addCategory(categoryRequest.getCategory());
-    }
-
-    @Transactional
-    public void removeCategory(Long memberId, CategoryRequest categoryRequest) {
-        Member member = memberRepository.findById(memberId).get();
-        if (member.getCategories() == null) {
-            throw new IllegalArgumentException("이미 선호하지 않는 카테고리입니다");
-        }
-        if(!member.getCategories().contains(categoryRequest.getCategory())) {
-            throw new IllegalArgumentException("이미 선호하지 않는 카테고리입니다");
-        }
-        member.removeCategory(categoryRequest.getCategory());
     }
 
 }
