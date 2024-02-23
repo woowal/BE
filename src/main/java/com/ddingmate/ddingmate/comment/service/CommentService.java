@@ -14,7 +14,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
+
+import static com.ddingmate.ddingmate.util.exception.ExceptionEnum.NO_SUCH_COMMENT;
 
 @Service
 @Transactional(readOnly = true)
@@ -61,7 +64,7 @@ public class CommentService {
 
     @Transactional
     public void updateComment(Long id, String content) {
-        Comment comment = commentRepository.findById(id).get();
+        Comment comment = commentRepository.findById(id).orElseThrow(() -> new NoSuchElementException(NO_SUCH_COMMENT.getErrorMessage()));
         comment.update(content);
     }
 
