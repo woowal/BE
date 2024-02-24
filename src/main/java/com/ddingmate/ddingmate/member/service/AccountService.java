@@ -19,6 +19,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static com.ddingmate.ddingmate.util.exception.ExceptionEnum.*;
+
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -26,6 +28,9 @@ public class AccountService {
 
     private final String SPLIT_TOKEN = "@";
     private final String EMAIL_FORM = "mju.ac.kr";
+    private final String EMAIL_SUBJECT = "테스트 이메일";
+    private final String EMAIL_TEXT = "인증번호 테스트: ";
+    private final String TOKEN_FORM = "%s:%s";
     private HashMap<String, String> validationToken = new HashMap<>();
     private static String key;
     private final MemberRepository memberRepository;
@@ -44,8 +49,8 @@ public class AccountService {
     public LoginResponse login(LoginRequest loginRequest) {
         Member targetMember = memberRepository.findByEmail(loginRequest.getEmail())
                 .filter(user -> encoder.matches(loginRequest.getPassword(), user.getPassword()))
-                .orElseThrow(() -> new NoSuchElementException("해당 계정은 유효하지 않습니다."));
-        String token = tokenProvider.createToken(String.format("%s:%s", targetMember.getId(), targetMember.getRole()));
+                .orElseThrow(() -> new SecurityException(WRONG_LOGIN_INFO.getErrorMessage()));
+        String token = tokenProvider.createToken(String.format(TOKEN_FORM, targetMember.getId(), targetMember.getRole()));
         return new LoginResponse(targetMember.getName(), targetMember.getRole(), token);
     }
 
@@ -64,8 +69,8 @@ public class AccountService {
         createCode();
         SimpleMailMessage message = new SimpleMailMessage();
         message.setTo(email);
-        message.setSubject("테스트 이메일");
-        message.setText("인증번호 테스트: " + key);
+        message.setSubject(EMAIL_SUBJECT);
+        message.setText(EMAIL_TEXT + key);
 
         this.validationToken.put(email, key);
         mailSender.send(message);
@@ -108,14 +113,17 @@ public class AccountService {
 
     private void checkPassword(String password, String passwordCheck) {
         if(!(password.equals(passwordCheck))) {
-            throw new RuntimeException("비밀번호가 일치하지 않습니다.");
+            throw new RuntimeException(NOT_MATCHED_PASSWORD.getErrorMessage());
         }
     }
 
     private void validEmail(String email) {
         String[] parts = email.split(SPLIT_TOKEN);
         if(!parts[1].equals(EMAIL_FORM)) {
-            throw new RuntimeException("명지대학교 이메일 형식과 일치하지 않습니다.");
+            throw new RuntimeException(WRONG_EMAIL_FORM.getErrorMessage());
+        }
+        if(memberRepository.existsByEmail(email)) {
+            throw new RuntimeException(ALREADY_EXIST_EMAIL.getErrorMessage());
         }
     }
 
