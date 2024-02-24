@@ -29,7 +29,6 @@ public class Mark {
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Post post;
 
-    @Builder
     public Mark(Member member, Post post) {
         this.member = member;
         this.post = post;

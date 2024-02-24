@@ -10,6 +10,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import static com.ddingmate.ddingmate.util.exception.ExceptionEnum.ALREADY_EXIST_MARK;
+
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
@@ -23,10 +25,13 @@ public class MarkService {
     public void createMark(Long memberId, Long postId) {
         Member member = memberService.retrieveMember(memberId);
         Post post = postService.retrievePost(postId);
-        Mark mark = Mark.builder()
-                        .member(member)
-                        .post(post)
-                        .build();
+
+        boolean exist = markRepository.existsByMemberAndPost(member, post);
+
+        if(exist) {
+            throw new RuntimeException(ALREADY_EXIST_MARK.getErrorMessage());
+        }
+        Mark mark = new Mark(member, post);
 
         markRepository.save(mark);
     }

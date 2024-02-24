@@ -2,15 +2,12 @@ package com.ddingmate.ddingmate.util.exception;
 
 import com.ddingmate.ddingmate.util.response.ApiResponse;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.ErrorResponse;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.util.NoSuchElementException;
 
 @RestControllerAdvice
@@ -36,5 +33,12 @@ public class GlobalExceptionHandler {
     public ApiResponse handleIllegalArgumentException(final IllegalArgumentException e) {
         ErrorResponse errorResponse = ErrorResponse.builder(e, HttpStatus.BAD_REQUEST, e.getMessage()).build();
         return ApiResponse.error(HttpStatus.BAD_REQUEST, errorResponse.getBody());
+    }
+
+    @ExceptionHandler(SecurityException.class)
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    public ApiResponse handleSecurityException(final SecurityException e) {
+        ErrorResponse errorResponse = ErrorResponse.builder(e, HttpStatus.UNAUTHORIZED, e.getMessage()).build();
+        return ApiResponse.error(HttpStatus.UNAUTHORIZED, errorResponse.getBody());
     }
 }
