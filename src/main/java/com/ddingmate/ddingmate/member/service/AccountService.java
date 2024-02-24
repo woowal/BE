@@ -31,6 +31,13 @@ public class AccountService {
     private final String EMAIL_SUBJECT = "테스트 이메일";
     private final String EMAIL_TEXT = "인증번호 테스트: ";
     private final String TOKEN_FORM = "%s:%s";
+    private static final int INIT_NUM = 0;
+    private static final int FIN_NUM = 8;
+    private static final int RANDOM_BOUND = 4;
+    private static final int MAX_RANDOM_BOUND = 26;
+    private static final int DEFAULT_KEY_BOUND = 9;
+    private static final int RANDOM_NUM_CASE0 = 97;
+    private static final int RANDOM_NUM_CASE1 = 65;
     private HashMap<String, String> validationToken = new HashMap<>();
     private static String key;
     private final MemberRepository memberRepository;
@@ -99,13 +106,13 @@ public class AccountService {
         Random random = new Random();
         StringBuffer key = new StringBuffer();
 
-        for (int i = 0; i < 8; i++) {
-            int index = random.nextInt(4);
+        for (int i = INIT_NUM; i < FIN_NUM; i++) {
+            int index = random.nextInt(RANDOM_BOUND);
 
             switch (index) {
-                case 0: key.append((char) ((int) random.nextInt(26) + 97)); break;
-                case 1: key.append((char) ((int) random.nextInt(26) + 65)); break;
-                default: key.append(random.nextInt(9));
+                case 0: key.append((char) ((int) random.nextInt(MAX_RANDOM_BOUND) + RANDOM_NUM_CASE0)); break;
+                case 1: key.append((char) ((int) random.nextInt(MAX_RANDOM_BOUND) + RANDOM_NUM_CASE1)); break;
+                default: key.append(random.nextInt(DEFAULT_KEY_BOUND));
             }
         }
         this.key = key.toString();
