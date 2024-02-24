@@ -28,6 +28,7 @@ public class Post {
     @JoinColumn(name = "member_id")
     private Member member;
     private String title;
+    @Column(length = 50000)
     private String content;
     @Convert(converter = CategoryConverter.class)
     private List<Category> categories;
