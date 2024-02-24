@@ -1,6 +1,5 @@
 package com.ddingmate.ddingmate.member.domain;
 
-import com.ddingmate.ddingmate.member.dto.request.MemberUpdateRequest;
 import com.ddingmate.ddingmate.member.state.Major;
 import com.ddingmate.ddingmate.member.state.Role;
 import com.ddingmate.ddingmate.member.state.Univ;
@@ -9,13 +8,11 @@ import com.ddingmate.ddingmate.member.util.RoleConverter;
 import com.ddingmate.ddingmate.member.util.UnivConverter;
 import com.ddingmate.ddingmate.post.state.Category;
 import com.ddingmate.ddingmate.post.util.CategoryConverter;
-import com.fasterxml.jackson.databind.ser.Serializers;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.experimental.SuperBuilder;
 
 import java.time.LocalDate;
 import java.util.List;
