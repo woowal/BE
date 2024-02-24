@@ -13,14 +13,14 @@ public class MarkController {
 
     private final MarkService markService;
 
-    @PostMapping("postId")
+    @PostMapping("/{postId}")
     public ApiResponse<Void> createLike(@AuthenticationPrincipal Long memberId, @PathVariable Long postId) {
         markService.createMark(memberId, postId);
 
         return ApiResponse.ok();
     }
 
-    @DeleteMapping
+    @DeleteMapping("/{postId}")
     public ApiResponse<Void> deleteLike(@AuthenticationPrincipal Long memberId, @PathVariable Long postId) {
         markService.deleteMark(memberId, postId);
 
