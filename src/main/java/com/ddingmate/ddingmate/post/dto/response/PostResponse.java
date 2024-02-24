@@ -20,8 +20,9 @@ public class PostResponse {
     private int number;
     private String link;
     private boolean isMine;
+    private boolean isMarked;
 
-    public PostResponse(Long postId, String memberName, String title, String content, List<Category> categories, Type type, LocalDate dueDate, int number, String link, boolean isMine) {
+    public PostResponse(Long postId, String memberName, String title, String content, List<Category> categories, Type type, LocalDate dueDate, int number, String link, boolean isMine, boolean isMarked) {
         this.postId = postId;
         this.memberName = memberName;
         this.title = title;
@@ -32,9 +33,10 @@ public class PostResponse {
         this.number = number;
         this.link = link;
         this.isMine = isMine;
+        this.isMarked = isMarked;
     }
 
-    public static PostResponse from(Post post, boolean isMine) {
+    public static PostResponse from(Post post, boolean isMine, boolean isMarked) {
         return new PostResponse(
                 post.getId(),
                 post.getMember().getName(),
@@ -45,6 +47,7 @@ public class PostResponse {
                 post.getDueDate(),
                 post.getNumber(),
                 post.getLink(),
-                isMine);
+                isMine,
+                isMarked);
     }
 }

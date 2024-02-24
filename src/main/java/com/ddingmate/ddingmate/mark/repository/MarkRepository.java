@@ -10,4 +10,5 @@ import java.util.List;
 public interface MarkRepository extends JpaRepository<Mark, Long> {
     void deleteByMemberAndPost(Member member, Post post);
     List<Mark> findAllByMember(Member member);
+    boolean existsByMemberAndPost(Member member, Post post);
 }
