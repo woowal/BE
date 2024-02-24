@@ -45,7 +45,7 @@ public class PostController {
     }
 
     @GetMapping("/all")
-    public ApiResponse<List> retrieveAll(@AuthenticationPrincipal Long memberId) {
+    public ApiResponse<List> retrieveAll() {
         List<PostResponse> posts = postService.retrieveAll().stream()
                 .map(post -> PostResponse.from(post, false, false))
                 .collect(Collectors.toList());
