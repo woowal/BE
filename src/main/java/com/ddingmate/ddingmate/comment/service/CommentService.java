@@ -3,7 +3,6 @@ package com.ddingmate.ddingmate.comment.service;
 import com.ddingmate.ddingmate.comment.domain.Comment;
 import com.ddingmate.ddingmate.comment.dto.request.CreateCommentRequest;
 import com.ddingmate.ddingmate.comment.dto.request.CreateReplyRequest;
-import com.ddingmate.ddingmate.comment.dto.response.CommentResponse;
 import com.ddingmate.ddingmate.comment.repository.CommentRepository;
 import com.ddingmate.ddingmate.member.domain.Member;
 import com.ddingmate.ddingmate.member.repository.MemberRepository;

@@ -2,9 +2,7 @@ package com.ddingmate.ddingmate.comment.dto.request;
 
 import com.ddingmate.ddingmate.comment.domain.Comment;
 import com.ddingmate.ddingmate.member.domain.Member;
-import jakarta.persistence.Column;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 
 @Getter

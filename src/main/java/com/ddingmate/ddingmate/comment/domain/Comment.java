@@ -1,6 +1,5 @@
 package com.ddingmate.ddingmate.comment.domain;
 
-import com.ddingmate.ddingmate.member.domain.BaseEntity;
 import com.ddingmate.ddingmate.member.domain.Member;
 import com.ddingmate.ddingmate.post.domain.Post;
 import jakarta.persistence.*;
@@ -8,15 +7,10 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import java.sql.Timestamp;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity

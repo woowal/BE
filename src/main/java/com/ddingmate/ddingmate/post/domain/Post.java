@@ -2,7 +2,6 @@ package com.ddingmate.ddingmate.post.domain;
 
 import com.ddingmate.ddingmate.member.domain.BaseEntity;
 import com.ddingmate.ddingmate.member.domain.Member;
-import com.ddingmate.ddingmate.post.dto.request.PostUpdateRequest;
 import com.ddingmate.ddingmate.post.state.Category;
 import com.ddingmate.ddingmate.post.state.Type;
 import com.ddingmate.ddingmate.post.util.CategoryConverter;

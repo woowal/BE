@@ -7,7 +7,6 @@ import com.ddingmate.ddingmate.member.service.MemberService;
 import com.ddingmate.ddingmate.member.state.UserAuthorize;
 import com.ddingmate.ddingmate.util.response.ApiResponse;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
