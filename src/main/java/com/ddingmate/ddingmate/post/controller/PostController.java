@@ -10,7 +10,6 @@ import com.ddingmate.ddingmate.post.service.PostService;
 import com.ddingmate.ddingmate.post.state.Category;
 import com.ddingmate.ddingmate.util.response.ApiResponse;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
@@ -48,7 +47,7 @@ public class PostController {
     @GetMapping("/all")
     public ApiResponse<List> retrieveAll() {
         List<PostResponse> posts = postService.retrieveAll().stream()
-                .map(post -> PostResponse.from(post, false))
+                .map(post -> PostResponse.from(post, false, false))
                 .collect(Collectors.toList());
 
         return ApiResponse.ok(posts);
@@ -59,14 +58,15 @@ public class PostController {
         Post post = postService.retrievePost(postId);
 
         boolean isMine = post.getMember().getId().equals(memberId);
+        boolean isMarked = postService.isMarked(memberId, postId);
 
-        return ApiResponse.ok(PostResponse.from(post, isMine));
+        return ApiResponse.ok(PostResponse.from(post, isMine, isMarked));
     }
 
     @GetMapping("/category")
     public ApiResponse<List> retrievePostsByCategory(@RequestBody PostCategoryRequest postCategoryRequest) {
         List<PostResponse> posts = postService.retrievePostsByCategory(postCategoryRequest).stream()
-                .map(post -> PostResponse.from(post, false))
+                .map(post -> PostResponse.from(post, false, false))
                 .collect(Collectors.toList());
 
         return ApiResponse.ok(posts);
@@ -76,7 +76,7 @@ public class PostController {
     @UserAuthorize
     public ApiResponse<List> retrievePostsByMark(@AuthenticationPrincipal Long memberId) {
         List<PostResponse> posts = postService.retrievePostsByMark(memberId).stream()
-                .map(post -> PostResponse.from(post, false))
+                .map(post -> PostResponse.from(post, false, postService.isMarked(memberId, post.getId())))
                 .collect(Collectors.toList());
 
         return ApiResponse.ok(posts);
@@ -85,7 +85,7 @@ public class PostController {
     @GetMapping("/type/{type}")
     public ApiResponse<List> retrievePostsByType(@PathVariable String type) {
         List<PostResponse> posts = postService.retrievePostsByType(type).stream()
-                .map(post -> PostResponse.from(post, false))
+                .map(post -> PostResponse.from(post, false, false))
                 .collect(Collectors.toList());
 
         return ApiResponse.ok(posts);

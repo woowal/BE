@@ -95,4 +95,11 @@ public class PostService {
                 .collect(Collectors.toList());
     }
 
+    public boolean isMarked(Long memberId, Long postId) {
+        Member member = memberService.retrieveMember(memberId);
+        Post post = postRepository.findById(postId).orElseThrow(() -> new NoSuchElementException(NO_SUCH_POST.getErrorMessage()));
+
+        return markRepository.existsByMemberAndPost(member, post);
+    }
+
 }
