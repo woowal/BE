@@ -1,5 +1,6 @@
 package com.ddingmate.ddingmate.post.domain;
 
+import com.ddingmate.ddingmate.member.domain.BaseEntity;
 import com.ddingmate.ddingmate.member.domain.Member;
 import com.ddingmate.ddingmate.post.dto.request.PostUpdateRequest;
 import com.ddingmate.ddingmate.post.state.Category;
@@ -17,7 +18,7 @@ import java.util.List;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Post {
+public class Post extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -36,10 +37,9 @@ public class Post {
     private LocalDate dueDate;
     private int number;
     private String link;
-    private LocalDate created;
 
     @Builder
-    public Post(Member member, String title, String content, List<Category> categories, Type type, LocalDate dueDate, int number, String link, LocalDate created) {
+    public Post(Member member, String title, String content, List<Category> categories, Type type, LocalDate dueDate, int number, String link) {
         this.member = member;
         this.title = title;
         this.content = content;
@@ -48,7 +48,6 @@ public class Post {
         this.dueDate = dueDate;
         this.number = number;
         this.link = link;
-        this.created = LocalDate.now();
     }
 
     public void update(String title, String content, List<Category> categories, Type type, LocalDate dueDate, int number, String link) {

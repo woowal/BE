@@ -1,5 +1,6 @@
 package com.ddingmate.ddingmate.comment.domain;
 
+import com.ddingmate.ddingmate.member.domain.BaseEntity;
 import com.ddingmate.ddingmate.member.domain.Member;
 import com.ddingmate.ddingmate.post.domain.Post;
 import jakarta.persistence.*;
@@ -10,12 +11,17 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.sql.Timestamp;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
+@EntityListeners(AuditingEntityListener.class)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Comment {
 
@@ -38,8 +44,11 @@ public class Comment {
     @JoinColumn(name = "comment_id")
     private Comment parent;
 
-    @CreationTimestamp
-    private Timestamp createTime;
+    @CreatedDate
+    private LocalDateTime createDate;
+
+    @LastModifiedDate
+    private LocalDateTime updateDate;
 
     @Builder
     public Comment(Member member, Post post, String content) {
