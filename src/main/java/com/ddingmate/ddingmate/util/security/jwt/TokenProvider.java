@@ -16,22 +16,22 @@ import java.util.Date;
 @Service
 public class TokenProvider {
 
-//    @Value("${jwt.secret-key}")
-    private final String secretKey;
-//    @Value("${jwt.expiration-hours}")
-    private final long expirationHours;
-//    @Value("${jwt.issuer}")
-    private final String issuer;
+    @Value("${jwt.secret-key}")
+    private String secretKey;
+    @Value("${jwt.expiration-hours}")
+    private long expirationHours;
+    @Value("${jwt.issuer}")
+    private String issuer;
 
-    public TokenProvider(
-            @Value("${jwt.secret-key}") String secretKey,
-            @Value("${jwt.expiration-hours}") long expirationHours,
-            @Value("${jwt.issuer}") String issuer
-    ) {
-        this.secretKey = secretKey;
-        this.expirationHours = expirationHours;
-        this.issuer = issuer;
-    }
+//    public TokenProvider(
+//            @Value("${jwt.secret-key}") String secretKey,
+//            @Value("${jwt.expiration-hours}") long expirationHours,
+//            @Value("${jwt.issuer}") String issuer
+//    ) {
+//        this.secretKey = secretKey;
+//        this.expirationHours = expirationHours;
+//        this.issuer = issuer;
+//    }
 
     public String createToken(String userSpecification) {
         return Jwts.builder()
