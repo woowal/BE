@@ -3,7 +3,7 @@ package com.ddingmate.ddingmate.util.security.jwt;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.PropertySource;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import javax.crypto.spec.SecretKeySpec;
@@ -16,8 +16,11 @@ import java.util.Date;
 @Service
 public class TokenProvider {
 
+//    @Value("${jwt.secret-key}")
     private final String secretKey;
+//    @Value("${jwt.expiration-hours}")
     private final long expirationHours;
+//    @Value("${jwt.issuer}")
     private final String issuer;
 
     public TokenProvider(
