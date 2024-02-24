@@ -18,6 +18,7 @@ public class CreateReplyRequest {
                 .member(writer)
                 .post(parent.getPost())
                 .content(this.content)
+                .parent(parent)
                 .build();
     }
 

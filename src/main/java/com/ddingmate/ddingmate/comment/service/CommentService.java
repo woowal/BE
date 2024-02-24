@@ -57,9 +57,8 @@ public class CommentService {
 
     @Transactional
     public void deleteCommentById(Long id) {
-        if(commentRepository.findById(id).isPresent()) {
-            commentRepository.deleteById(id);
-        }
+        Comment targetComment = commentRepository.getReferenceById(id);
+        targetComment.delteComment();
     }
 
     @Transactional

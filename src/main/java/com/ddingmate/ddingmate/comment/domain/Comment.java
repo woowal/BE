@@ -18,6 +18,8 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -51,13 +53,19 @@ public class Comment {
     private LocalDateTime updateDate;
 
     @Builder
-    public Comment(Member member, Post post, String content) {
+    public Comment(Member member, Post post, String content, Comment parent) {
         this.member = member;
         this.post = post;
         this.content = content;
+        this.parent = parent;
     }
 
     public void update(String content) {
         this.content = content;
+    }
+
+    public void delteComment() {
+        this.member = null;
+        this.content = "삭제된 댓글입니다.";
     }
 }
