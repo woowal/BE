@@ -29,9 +29,12 @@ import java.util.Collections;
 public class SecurityConfig {
 
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
+    private static final String CORS_URL = "http://localhost:3000";
+    private static final String CORS_SET = "*";
     private static final String[] WHITE_LIST = {"/api/account/**", "/api/post/all", "api/post/{postId}",
                                                 "/api/post/category/{category}", "/api/post/type/{type}",
                                                 "/api/comment/byPost/{postId}", "api/comment/byMember"};
+    private static final Long CORS_MAX_AGE = 3600L;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
@@ -42,11 +45,11 @@ public class SecurityConfig {
                     @Override
                     public CorsConfiguration getCorsConfiguration(HttpServletRequest request) {
                         CorsConfiguration config = new CorsConfiguration();
-                        config.setAllowedOrigins(Collections.singletonList("http://localhost:3000"));
-                        config.setAllowedMethods(Collections.singletonList("*"));
+                        config.setAllowedOrigins(Collections.singletonList(CORS_URL));
+                        config.setAllowedMethods(Collections.singletonList(CORS_SET));
                         config.setAllowCredentials(true);
-                        config.setAllowedHeaders(Collections.singletonList("*"));
-                        config.setMaxAge(3600L); //1시간
+                        config.setAllowedHeaders(Collections.singletonList(CORS_SET));
+                        config.setMaxAge(CORS_MAX_AGE); //1시간
                         return config;
                     }
                 }))
