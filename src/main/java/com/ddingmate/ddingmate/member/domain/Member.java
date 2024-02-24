@@ -9,11 +9,13 @@ import com.ddingmate.ddingmate.member.util.RoleConverter;
 import com.ddingmate.ddingmate.member.util.UnivConverter;
 import com.ddingmate.ddingmate.post.state.Category;
 import com.ddingmate.ddingmate.post.util.CategoryConverter;
+import com.fasterxml.jackson.databind.ser.Serializers;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -21,7 +23,7 @@ import java.util.List;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Member {
+public class Member extends BaseEntity {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "member_id")

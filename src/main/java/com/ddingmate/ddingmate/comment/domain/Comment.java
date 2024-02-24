@@ -1,5 +1,6 @@
 package com.ddingmate.ddingmate.comment.domain;
 
+import com.ddingmate.ddingmate.member.domain.BaseEntity;
 import com.ddingmate.ddingmate.member.domain.Member;
 import com.ddingmate.ddingmate.post.domain.Post;
 import jakarta.persistence.*;
@@ -17,7 +18,7 @@ import java.time.LocalDate;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Comment {
+public class Comment extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -37,9 +38,6 @@ public class Comment {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "comment_id")
     private Comment parent;
-
-    @CreationTimestamp
-    private Timestamp createTime;
 
     @Builder
     public Comment(Member member, Post post, String content) {
