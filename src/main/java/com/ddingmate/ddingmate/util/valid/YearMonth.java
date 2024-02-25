@@ -2,7 +2,6 @@ package com.ddingmate.ddingmate.util.valid;
 
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Target;

@@ -3,7 +3,6 @@ package com.ddingmate.ddingmate.member.service;
 import com.ddingmate.ddingmate.comment.repository.CommentRepository;
 import com.ddingmate.ddingmate.member.domain.Member;
 import com.ddingmate.ddingmate.member.dto.request.*;
-import com.ddingmate.ddingmate.member.dto.response.MemberResponse;
 import com.ddingmate.ddingmate.member.repository.MemberRepository;
 import com.ddingmate.ddingmate.post.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
@@ -11,7 +10,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.io.Console;
 import java.util.NoSuchElementException;
 
 import static com.ddingmate.ddingmate.util.exception.ExceptionEnum.*;
