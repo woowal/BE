@@ -17,6 +17,7 @@ public class CreateReplyRequest {
                 .post(parent.getPost())
                 .content(this.content)
                 .parent(parent)
+                .isDeleted(false)
                 .build();
     }
 

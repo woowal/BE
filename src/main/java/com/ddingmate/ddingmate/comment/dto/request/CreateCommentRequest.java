@@ -20,6 +20,7 @@ public class CreateCommentRequest {
                 .post(post)
                 .member(member)
                 .content(this.content)
+                .isDeleted(false)
                 .build();
 
     }

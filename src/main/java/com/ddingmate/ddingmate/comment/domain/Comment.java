@@ -40,6 +40,8 @@ public class Comment {
     @JoinColumn(name = "comment_id")
     private Comment parent;
 
+    private boolean isDeleted;
+
     @CreatedDate
     private LocalDateTime createDate;
 
@@ -47,11 +49,12 @@ public class Comment {
     private LocalDateTime updateDate;
 
     @Builder
-    public Comment(Member member, Post post, String content, Comment parent) {
+    public Comment(Member member, Post post, String content, Comment parent, boolean isDeleted) {
         this.member = member;
         this.post = post;
         this.content = content;
         this.parent = parent;
+        this.isDeleted = isDeleted;
     }
 
     public void update(String content) {
@@ -59,7 +62,7 @@ public class Comment {
     }
 
     public void delteComment() {
-        this.member = null;
         this.content = "삭제된 댓글입니다.";
+        this.isDeleted = true;
     }
 }

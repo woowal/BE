@@ -13,6 +13,7 @@ public class CommentResponse {
     private String content;
     private String writer;
     private boolean isMine;
+    private boolean isDeleted;
 
     public static CommentResponse from(Comment comment, boolean isMine) {
         return CommentResponse.builder()
@@ -20,10 +21,8 @@ public class CommentResponse {
                 .content(comment.getContent())
                 .writer(comment.getMember().getName())
                 .isMine(isMine)
+                .isDeleted(comment.isDeleted())
                 .build();
     }
 
-    public void setMine(boolean isMine) {
-        this.isMine = isMine;
-    }
 }
