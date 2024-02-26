@@ -64,14 +64,16 @@ public class CommentController {
 
     @DeleteMapping("/{commentId}")
     @UserAuthorize
-    public ApiResponse<Void> deleteCommentById(@PathVariable(name = "commentId") Long id) {
+    public ApiResponse<Void> deleteCommentById(@AuthenticationPrincipal Long user,
+                                               @PathVariable(name = "commentId") Long id) {
         commentService.deleteCommentById(id);
         return ApiResponse.ok();
     }
 
     @PatchMapping("/{commentId}")
     @UserAuthorize
-    public ApiResponse<Void> updateComment(@PathVariable(name = "commentId") Long id, @RequestParam String content) {
+    public ApiResponse<Void> updateComment(@AuthenticationPrincipal Long user,
+                                           @PathVariable(name = "commentId") Long id, @RequestParam String content) {
         commentService.updateComment(id, content);
         return ApiResponse.ok();
     }
