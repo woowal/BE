@@ -1,5 +1,6 @@
 package com.ddingmate.ddingmate.comment.controller;
 
+import com.ddingmate.ddingmate.comment.domain.Comment;
 import com.ddingmate.ddingmate.comment.dto.request.CreateCommentRequest;
 import com.ddingmate.ddingmate.comment.dto.request.CreateReplyRequest;
 import com.ddingmate.ddingmate.comment.dto.response.CommentResponse;
@@ -10,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -37,17 +39,25 @@ public class CommentController {
     }
 
     @GetMapping("/byPost/{postId}")
-    public ApiResponse<List<CommentResponse>> retrieveCommentByPost(@PathVariable(name = "postId") Long id) {
-        List<CommentResponse> comments = commentService.retrieveCommentByPost(id).stream()
-                .map(CommentResponse::from)
-                .collect(Collectors.toList());
-        return ApiResponse.ok(comments);
+    public ApiResponse<List<CommentResponse>> retrieveCommentByPost(@AuthenticationPrincipal Long user,
+                                                                    @PathVariable(name = "postId") Long id) {
+        List<Comment> comments = commentService.retrieveCommentByPost(id);
+        List<CommentResponse> commentResponses = new ArrayList<>();
+        for(Comment c : comments) {
+            if(c.getMember().getId().equals(user)) {
+                commentResponses.add(CommentResponse.from(c, true));
+            } else {
+                commentResponses.add(CommentResponse.from(c, false));
+            }
+        }
+
+        return ApiResponse.ok(commentResponses);
     }
 
     @GetMapping("/byMember")
     public ApiResponse<List<CommentResponse>> retrieveCommentByMember(@AuthenticationPrincipal Long memberId) {
         List<CommentResponse> comments = commentService.retrieveCommentByMember(memberId).stream()
-                .map(CommentResponse::from)
+                .map(comment -> CommentResponse.from(comment, true))
                 .collect(Collectors.toList());
         return ApiResponse.ok(comments);
     }
