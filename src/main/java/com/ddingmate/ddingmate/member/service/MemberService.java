@@ -5,6 +5,7 @@ import com.ddingmate.ddingmate.comment.repository.CommentRepository;
 import com.ddingmate.ddingmate.member.domain.Member;
 import com.ddingmate.ddingmate.member.dto.request.*;
 import com.ddingmate.ddingmate.member.repository.MemberRepository;
+import com.ddingmate.ddingmate.post.domain.Post;
 import com.ddingmate.ddingmate.post.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -43,7 +44,10 @@ public class MemberService {
         Member member = memberRepository.findById(memberId).orElseThrow(() -> new NoSuchElementException(NO_SUCH_MEMBER.getErrorMessage()));
         commentRepository.findAllByMember(member).stream()
                 .forEach(Comment::deleteComment);
-        postRepository.deleteByMember(member);
+        postRepository.findAllByMember(member).stream()
+                .flatMap(post -> commentRepository.findAllByPost(post).stream())
+                .forEach(Comment::deleteCommentByPost);
+        postRepository.deleteAllByMember(member);
         memberRepository.deleteById(memberId);
     }
 

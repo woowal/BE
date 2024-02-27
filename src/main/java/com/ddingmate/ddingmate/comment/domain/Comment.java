@@ -64,4 +64,8 @@ public class Comment {
         this.member = null;
         this.isDeleted = true;
     }
+
+    public void deleteCommentByPost() {
+        this.post = null;
+    }
 }

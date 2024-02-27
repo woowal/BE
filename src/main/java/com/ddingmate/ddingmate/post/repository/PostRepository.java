@@ -10,6 +10,7 @@ import java.util.List;
 public interface PostRepository extends JpaRepository<Post, Long> {
 
     List<Post> findAllByType(Type type);
+    List<Post> findAllByMember(Member member);
 
-    void deleteByMember(Member member);
+    void deleteAllByMember(Member member);
 }
