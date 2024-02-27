@@ -12,8 +12,6 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @Getter
@@ -61,7 +59,7 @@ public class Comment {
         this.content = content;
     }
 
-    public void delteComment() {
+    public void deleteComment() {
         this.content = "삭제된 댓글입니다.";
         this.isDeleted = true;
     }

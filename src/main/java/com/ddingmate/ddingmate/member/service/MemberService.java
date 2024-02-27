@@ -1,5 +1,6 @@
 package com.ddingmate.ddingmate.member.service;
 
+import com.ddingmate.ddingmate.comment.domain.Comment;
 import com.ddingmate.ddingmate.comment.repository.CommentRepository;
 import com.ddingmate.ddingmate.member.domain.Member;
 import com.ddingmate.ddingmate.member.dto.request.*;
@@ -10,6 +11,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.NoSuchElementException;
 
 import static com.ddingmate.ddingmate.util.exception.ExceptionEnum.*;
@@ -39,7 +41,8 @@ public class MemberService {
     @Transactional
     public void deleteMember(Long memberId) {
         Member member = memberRepository.findById(memberId).orElseThrow(() -> new NoSuchElementException(NO_SUCH_MEMBER.getErrorMessage()));
-        commentRepository.deleteByMember(member);
+        commentRepository.findAllByMember(member).stream()
+                .forEach(Comment::deleteComment);
         postRepository.deleteByMember(member);
         memberRepository.deleteById(memberId);
     }
