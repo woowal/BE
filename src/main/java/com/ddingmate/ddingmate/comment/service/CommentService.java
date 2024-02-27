@@ -42,16 +42,14 @@ public class CommentService {
         commentRepository.save(child);
     }
 
-    public List<Comment> retrieveCommentByPost(Long id) {
-        return commentRepository.findAll().stream()
-                .filter(comment -> comment.getPost().getId().equals(id))
-                .collect(Collectors.toList());
+    public List<Comment> retrieveCommentByPost(Long postId) {
+        Post post = postService.retrievePost(postId);
+        return commentRepository.findAllByPost(post);
     }
 
-    public List<Comment> retrieveCommentByMember(Long id) {
-        return commentRepository.findAll().stream()
-                .filter(comment -> comment.getMember().getId().equals(id))
-                .collect(Collectors.toList());
+    public List<Comment> retrieveCommentByMember(Long memberId) {
+        Member member = memberService.retrieveMember(memberId);
+        return commentRepository.findAllByMember(member);
     }
 
     @Transactional
