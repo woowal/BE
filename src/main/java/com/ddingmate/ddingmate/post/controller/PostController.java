@@ -57,10 +57,13 @@ public class PostController {
     public ApiResponse<PostResponse> retrievePost(@AuthenticationPrincipal Long memberId, @PathVariable Long postId) {
         Post post = postService.retrievePost(postId);
 
-        boolean isMine = post.getMember().getId().equals(memberId);
-        boolean isMarked = postService.isMarked(memberId, postId);
+        if(memberId != 0) {
+            boolean isMine = post.getMember().getId().equals(memberId);
+            boolean isMarked = postService.isMarked(memberId, postId);
 
-        return ApiResponse.ok(PostResponse.from(post, isMine, isMarked));
+            return ApiResponse.ok(PostResponse.from(post, isMine, isMarked));
+        }
+            return ApiResponse.ok(PostResponse.from(post, false, false));
     }
 
     @GetMapping("/category")

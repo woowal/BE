@@ -17,6 +17,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -32,6 +33,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private static final int INIT_NUM = 0;
     private static final int FIN_NUM = 7;
     private static final int TOKEN_LENGTH = 10;
+    private static final String TOKEN_ROLE = "USER";
+    private static final String ANONYMOUS_TOKEN = "notLogIn";
+    private static final String ANONYMOUS_USER_ID = "0";
     private final TokenProvider tokenProvider;
 
     @Override
@@ -52,12 +56,14 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     }
 
     private User parseUserSpecification(String token) {
+        if(token != null && token.matches(ANONYMOUS_TOKEN)) {
+            return new User(ANONYMOUS_USER_ID, "", Collections.singleton(new SimpleGrantedAuthority(TOKEN_ROLE)));
+        }
         String[] split = Optional.ofNullable(token)
                 .filter(subject -> subject.length() >= TOKEN_LENGTH)
                 .map(tokenProvider::validateTokenAndGetSubject)
                 .orElse(OTHER_CASE)
                 .split(SPLIT_CASE);
-
         return new User(split[INIT_NUM], "", List.of(new SimpleGrantedAuthority(split[1])));
     }
 
