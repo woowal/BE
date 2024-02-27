@@ -1,5 +1,6 @@
 package com.ddingmate.ddingmate.post.service;
 
+import com.ddingmate.ddingmate.comment.domain.Comment;
 import com.ddingmate.ddingmate.comment.repository.CommentRepository;
 import com.ddingmate.ddingmate.mark.domain.Mark;
 import com.ddingmate.ddingmate.mark.repository.MarkRepository;
@@ -43,7 +44,8 @@ public class PostService {
     @Transactional
     public void deletePost(Long id) {
         Post post = postRepository.findById(id).orElseThrow(() -> new NoSuchElementException(NO_SUCH_POST.getErrorMessage()));
-        commentRepository.deleteByPost(post);
+        commentRepository.findAllByPost(post).stream()
+                .forEach(Comment::deleteComment);
         postRepository.deleteById(id);
     }
 

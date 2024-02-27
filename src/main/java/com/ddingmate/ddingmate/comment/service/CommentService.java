@@ -5,10 +5,8 @@ import com.ddingmate.ddingmate.comment.dto.request.CreateCommentRequest;
 import com.ddingmate.ddingmate.comment.dto.request.CreateReplyRequest;
 import com.ddingmate.ddingmate.comment.repository.CommentRepository;
 import com.ddingmate.ddingmate.member.domain.Member;
-import com.ddingmate.ddingmate.member.repository.MemberRepository;
 import com.ddingmate.ddingmate.member.service.MemberService;
 import com.ddingmate.ddingmate.post.domain.Post;
-import com.ddingmate.ddingmate.post.repository.PostRepository;
 import com.ddingmate.ddingmate.post.service.PostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -59,7 +57,7 @@ public class CommentService {
     @Transactional
     public void deleteCommentById(Long id) {
         Comment targetComment = commentRepository.getReferenceById(id);
-        targetComment.delteComment();
+        targetComment.deleteComment();
     }
 
     @Transactional
