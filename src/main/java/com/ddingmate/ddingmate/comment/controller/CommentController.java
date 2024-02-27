@@ -41,15 +41,12 @@ public class CommentController {
     @GetMapping("/byPost/{postId}")
     public ApiResponse<List<CommentResponse>> retrieveCommentByPost(@AuthenticationPrincipal Long user,
                                                                     @PathVariable(name = "postId") Long id) {
-        List<Comment> comments = commentService.retrieveCommentByPost(id);
-        List<CommentResponse> commentResponses = new ArrayList<>();
-        for(Comment c : comments) {
-            if(c.getMember().getId().equals(user)) {
-                commentResponses.add(CommentResponse.from(c, true));
-            } else {
-                commentResponses.add(CommentResponse.from(c, false));
-            }
-        }
+        List<CommentResponse> commentResponses = commentService.retrieveCommentByPost(id).stream()
+                .map(c -> {
+                    boolean isMine = c.getMember() != null && c.getMember().getId().equals(user);
+                    return CommentResponse.from(c, isMine);
+                })
+                .collect(Collectors.toList());
 
         return ApiResponse.ok(commentResponses);
     }

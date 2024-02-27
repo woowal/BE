@@ -19,7 +19,7 @@ public class CommentResponse {
         return CommentResponse.builder()
                 .commentId(comment.getId())
                 .content(comment.getContent())
-                .writer(comment.getMember().getName())
+                .writer(comment.getMember() != null ? comment.getMember().getName() : null)
                 .isMine(isMine)
                 .isDeleted(comment.isDeleted())
                 .build();
