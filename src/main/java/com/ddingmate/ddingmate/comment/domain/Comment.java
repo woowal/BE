@@ -61,6 +61,7 @@ public class Comment {
 
     public void deleteComment() {
         this.content = "삭제된 댓글입니다.";
+        this.member = null;
         this.isDeleted = true;
     }
 }
