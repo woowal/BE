@@ -26,7 +26,7 @@ import java.util.Collections;
 public class SecurityConfig {
 
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
-    private static final String CORS_URL = "http://localhost:3000";
+    private static final String CORS_URL = "*";
     private static final String CORS_SET = "*";
     private static final String[] WHITE_LIST = {"/api/account/**", "/api/post/all", "api/post/{postId}",
                                                 "/api/post/category/{category}", "/api/post/type/{type}",
