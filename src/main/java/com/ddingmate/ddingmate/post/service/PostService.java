@@ -45,7 +45,7 @@ public class PostService {
     public void deletePost(Long id) {
         Post post = postRepository.findById(id).orElseThrow(() -> new NoSuchElementException(NO_SUCH_POST.getErrorMessage()));
         commentRepository.findAllByPost(post).stream()
-                .forEach(Comment::deleteComment);
+                .forEach(Comment::deleteCommentByPost);
         postRepository.deleteById(id);
     }
 
