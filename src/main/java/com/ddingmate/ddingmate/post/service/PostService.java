@@ -17,6 +17,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -102,6 +103,12 @@ public class PostService {
         Post post = postRepository.findById(postId).orElseThrow(() -> new NoSuchElementException(NO_SUCH_POST.getErrorMessage()));
 
         return markRepository.existsByMemberAndPost(member, post);
+    }
+
+    public void deleteExpiredPosts() {
+        postRepository.findAll().stream()
+                .filter(post -> post.getDueDate().isBefore(LocalDate.now()))
+                .forEach(post -> postRepository.delete(post));
     }
 
 }
